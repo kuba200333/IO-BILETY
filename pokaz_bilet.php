@@ -19,7 +19,7 @@ $db = $database->getConnection();
 $id_biletu = $_GET["id_biletu"];
 
 // Pobranie szczegółów biletu, w tym klasy z tabeli `wagony`
-$query_bilet = "SELECT bilety.id_biletu, pociagi.numer_pociagu, 
+$query_bilet = "SELECT bilety.id_biletu, bilety.kod_qr, pociagi.numer_pociagu, 
                         st1.nazwa AS stacja_start, st2.nazwa AS stacja_koniec, 
                         bilety.miejsce, bilety.cena, bilety.data_podrozy, bilety.id_wagonu, bilety.id_znizki,
                         wagony.klasa,
@@ -86,6 +86,7 @@ $data_transakcji = date("d.m.Y H:i", strtotime($bilet["data_transakcji"]));
     </style>
 </head>
 <body>
+    <a href="dashboard.php">Strona główna</a>
     <h2>Bilet</h2>
     <table>
         <tr><th>PODRÓŻ TAM KURS</th></tr>
@@ -115,6 +116,9 @@ $data_transakcji = date("d.m.Y H:i", strtotime($bilet["data_transakcji"]));
         <tr>
             <th>Numer biletu</th>
             <td>BK<?= htmlspecialchars($bilet["id_biletu"]) ?></td>
+            <h2>Kod QR</h2>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=<?php echo urlencode($bilet["kod_qr"]); ?>" alt="Kod QR">
+
         </tr>
         <tr>
             <th>Numer wagonu</th>

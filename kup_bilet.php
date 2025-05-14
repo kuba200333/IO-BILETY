@@ -7,7 +7,7 @@ $db = $database->getConnection();
 $bilet = new Bilet($db);
 
 // Pobranie dostępnych zniżek z tabeli znizki
-$query_znizki = "SELECT id_znizki, nazwa_znizki, wymiar_znizki FROM znizki";
+$query_znizki = "SELECT id_znizki, nazwa_znizki, wymiar_znizki FROM znizki order by wymiar_znizki asc";
 $stmt = $db->prepare($query_znizki);
 $stmt->execute();
 $znizki = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -60,6 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             document.getElementById("klasa").value = klasa;
             document.getElementById("cena_koncowa").innerText = cena.toFixed(2) + " PLN";
             document.getElementById("cena").value = cena.toFixed(2);
+            document.getElementById("cena_bazowa").value = cena.toFixed(2);
 
             // Pokaż formularz wyboru miejsca po kliknięciu w ofertę
             document.getElementById("formularz").style.display = "block";
@@ -70,25 +71,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         function aktualizujCene() {
-            let cenaPodstawowa = parseFloat(document.getElementById("cena").value);
+            let cenaBazowa = parseFloat(document.getElementById("cena_bazowa").value); // ZAMIENNIK
             let znizkaSelect = document.getElementById("znizka");
             let klasa = document.getElementById("klasa").value;
             
             let znizkaProcent = parseFloat(znizkaSelect.options[znizkaSelect.selectedIndex].getAttribute("data-znizka"));
-            let cenaPoZnizce = cenaPodstawowa * (1 - znizkaProcent / 100);
-            
+            let cenaPoZnizce = cenaBazowa * (1 - znizkaProcent / 100);
+
             if (klasa === "sypialny") {
-                cenaPoZnizce = cenaPodstawowa + 79.00; // Dopłata 79 zł, bez zniżek
+                cenaPoZnizce = cenaBazowa + 79.00;
             }
 
             let idZnizki = znizkaSelect.value;
-            if ((idZnizki == 5 || idZnizki == 6) && cenaPoZnizce < 7.50) {
+            if ((idZnizki == 5 || idZnizki == 6 || idZnizki == 31) && cenaPoZnizce < 7.50) {
                 cenaPoZnizce = 7.50;
             }
 
             document.getElementById("cena_koncowa").innerText = cenaPoZnizce.toFixed(2) + " PLN";
             document.getElementById("cena").value = cenaPoZnizce.toFixed(2);
         }
+
 
     </script>
 </head>
@@ -112,6 +114,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="hidden" name="id_stacja_koniec" value="<?= $id_stacji_koniec ?>">
             <input type="hidden" name="odleglosc" value="<?= $odleglosc ?>">
             <input type="hidden" id="cena" name="cena">
+            <input type="hidden" id="cena_bazowa">
             <input type="hidden" id="klasa" name="klasa">
 
             <label><strong>Zniżka:</strong></label>

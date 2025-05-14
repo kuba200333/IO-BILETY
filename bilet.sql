@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 30, 2025 at 02:31 PM
+-- Generation Time: Maj 14, 2025 at 10:58 PM
 -- Wersja serwera: 10.4.32-MariaDB
 -- Wersja PHP: 8.2.12
 
@@ -53,7 +53,9 @@ INSERT INTO `bilety` (`id_biletu`, `id_pasazera`, `id_pociagu`, `id_stacji_start
 (29, 2, 1, 1, 3, '6', 4.00, '2025-03-20', 'b5456c7330d7467f7b8e25fad8cbb7f5', 5, 5),
 (30, 2, 1, 1, 3, '6', 9.90, '2025-03-20', 'bde91bcdaa6f2b8e3ba10bb91b309b2c', 5, 2),
 (31, 2, 1, 1, 21, '4', 85.00, '2025-03-20', '48a32d24b16828a3c42ee872acc007e1', 4, 1),
-(32, 2, 2, 26, 28, '6', 7.50, '2025-03-20', '12e37986bbd449fa2d096217e1edd576', 5, 5);
+(32, 2, 2, 26, 28, '6', 7.50, '2025-03-20', '12e37986bbd449fa2d096217e1edd576', 5, 5),
+(33, 2, 1, 1, 3, '12', 0.01, '2025-05-05', '533deff0ea15d5bc2aa86189f5fc4dd1', 1, 2),
+(34, 2, 1, 1, 3, '3', 27.00, '2025-05-14', '22d3ef86e129d13210d660a02457b56b', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -288,7 +290,17 @@ INSERT INTO `odleglosci_miedzy_stacjami` (`id_odleglosci`, `id_pociagu`, `id_sta
 (69, 2, 41, 42, 15.9),
 (70, 2, 42, 43, 13.9),
 (71, 2, 43, 44, 25.1),
-(72, 2, 44, 45, 12.2);
+(72, 2, 44, 45, 12.2),
+(73, 3, 23, 24, 13.8),
+(74, 3, 24, 26, 64.6),
+(75, 3, 26, 1, 27.5),
+(76, 3, 1, 27, 15.3),
+(77, 3, 27, 28, 25.2),
+(78, 3, 28, 31, 86.7),
+(79, 3, 31, 12, 100.7),
+(80, 3, 12, 21, 276.2),
+(81, 3, 21, 22, 5.0),
+(82, 3, 22, 46, 5.0);
 
 -- --------------------------------------------------------
 
@@ -312,7 +324,8 @@ CREATE TABLE `pasazerowie` (
 
 INSERT INTO `pasazerowie` (`id_pasazera`, `imie`, `nazwisko`, `email`, `telefon`, `login`, `haslo`) VALUES
 (1, 'Jan', 'Kowalski', 'jan.kowalski@example.com', '500123456', 'kowalski_jan', '$2y$10$KOC5.TbWKqNaWsxPUhYCVOd2HgGDOWw8OkuM29Pn1/4B4UOpj3z9C'),
-(2, 'Dariusz', 'Nowak', '', '', 'dariusz_nowak', '$2y$10$URssYzJbgFIUMkH7KeLls.98EPhDb.LrsDOQafJ.E8.Z6lmP/2BEO');
+(2, 'Dariusz', 'Nowak', '', '', 'dariusz_nowak', '$2y$10$URssYzJbgFIUMkH7KeLls.98EPhDb.LrsDOQafJ.E8.Z6lmP/2BEO'),
+(3, 'Łukasz', 'Radliński', 'lradlinski@lradlinski.pl', '522852752', 'lradlinski', '$2y$10$Di2CGGNkprIeHM9Vi5SufextNkyDpgx7Q.rf7zd5mUpiVR9zCxsUW');
 
 -- --------------------------------------------------------
 
@@ -334,8 +347,9 @@ CREATE TABLE `pociagi` (
 --
 
 INSERT INTO `pociagi` (`id_pociagu`, `numer_pociagu`, `typ`, `nazwa`, `od`, `do`) VALUES
-(1, 81170, 'IC', 'UZNAM', '2025-03-09', '2025-06-14'),
-(2, 83172, 'IC', 'PRZEMYŚLANIN', '2025-03-09', '2025-06-14');
+(1, 81170, 'IC', 'UZNAM', '2025-03-09', '2025-06-30'),
+(2, 83172, 'IC', 'PRZEMYŚLANIN', '2025-03-09', '2025-06-30'),
+(3, 8102, 'EIP', '', '2025-05-06', '2025-08-31');
 
 -- --------------------------------------------------------
 
@@ -347,39 +361,21 @@ CREATE TABLE `pracownicy` (
   `id_pracownika` int(11) NOT NULL,
   `imie` varchar(50) NOT NULL,
   `nazwisko` varchar(50) NOT NULL,
-  `stanowisko` enum('Administrator','Kontroler','Kasjer') NOT NULL,
+  `stanowisko` enum('Administrator','Pracownik','Kierownik') NOT NULL,
+  `telefon` int(11) NOT NULL,
+  `email` text NOT NULL,
   `login` varchar(50) NOT NULL,
-  `haslo` varchar(255) NOT NULL
+  `haslo` varchar(255) NOT NULL,
+  `id_kierownika` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `pracownicy`
 --
 
-INSERT INTO `pracownicy` (`id_pracownika`, `imie`, `nazwisko`, `stanowisko`, `login`, `haslo`) VALUES
-(1, 'Marek', 'Nowak', 'Kasjer', 'marek_nowak', '$2y$10$KOC5.TbWKqNaWsxPUhYCVOd2HgGDOWw8OkuM29Pn1/4B4UOpj3z9C'),
-(3, 'Jakub', 'Wierciński', 'Administrator', 'wiercinski_jakub', '$2y$10$KOC5.TbWKqNaWsxPUhYCVOd2HgGDOWw8OkuM29Pn1/4B4UOpj3z9C');
-
--- --------------------------------------------------------
-
---
--- Struktura tabeli dla tabeli `rezerwacje`
---
-
-CREATE TABLE `rezerwacje` (
-  `id_rezerwacji` int(11) NOT NULL,
-  `id_pasazera` int(11) NOT NULL,
-  `id_pociagu` int(11) NOT NULL,
-  `miejsce` varchar(5) NOT NULL,
-  `status` enum('Aktywna','Anulowana') NOT NULL DEFAULT 'Aktywna'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `rezerwacje`
---
-
-INSERT INTO `rezerwacje` (`id_rezerwacji`, `id_pasazera`, `id_pociagu`, `miejsce`, `status`) VALUES
-(1, 1, 1, '25', 'Aktywna');
+INSERT INTO `pracownicy` (`id_pracownika`, `imie`, `nazwisko`, `stanowisko`, `telefon`, `email`, `login`, `haslo`, `id_kierownika`) VALUES
+(1, 'Marek', 'Nowak', 'Pracownik', 562875465, 'marek_nowak@marek_nowak.pl', 'marek_nowak', '$2y$10$KOC5.TbWKqNaWsxPUhYCVOd2HgGDOWw8OkuM29Pn1/4B4UOpj3z9C', NULL),
+(3, 'Jakub', 'Wierciński', 'Administrator', 452685425, 'wiercinski_jakub@wiercinski_jakub.pl', 'wiercinski_jakub', '$2y$10$KOC5.TbWKqNaWsxPUhYCVOd2HgGDOWw8OkuM29Pn1/4B4UOpj3z9C', 3);
 
 -- --------------------------------------------------------
 
@@ -446,7 +442,18 @@ INSERT INTO `rozklad_jazdy` (`id_rozkladu`, `id_pociagu`, `id_stacji`, `godzina_
 (45, 2, 42, '05:42:00', '05:43:00'),
 (46, 2, 43, '05:55:00', '05:56:00'),
 (47, 2, 44, '06:06:00', '06:08:00'),
-(48, 2, 45, '06:40:00', NULL);
+(48, 2, 45, '06:40:00', NULL),
+(49, 3, 23, '00:00:00', '06:25:00'),
+(50, 3, 24, '06:35:00', '06:36:00'),
+(51, 3, 26, '07:12:00', '07:13:00'),
+(52, 3, 1, '07:39:00', '07:40:00'),
+(53, 3, 27, '07:56:00', '07:57:00'),
+(54, 3, 28, '08:11:00', '08:12:00'),
+(55, 3, 31, '08:51:00', '08:52:00'),
+(56, 3, 12, '09:20:00', '09:32:00'),
+(57, 3, 21, '11:52:00', '11:53:00'),
+(58, 3, 22, '11:57:00', '11:59:00'),
+(59, 3, 46, '12:16:00', '00:00:00');
 
 -- --------------------------------------------------------
 
@@ -466,7 +473,8 @@ CREATE TABLE `sklady_pociagow` (
 
 INSERT INTO `sklady_pociagow` (`id_skladu`, `id_pociagu`, `nazwa_skladu`) VALUES
 (1, 1, 'Skład IC 81170'),
-(3, 2, 'Skład IC 83172');
+(3, 2, 'Skład IC 83172'),
+(4, 3, 'EIP 8102');
 
 -- --------------------------------------------------------
 
@@ -529,7 +537,8 @@ INSERT INTO `stacje` (`id_stacji`, `nazwa`, `miasto`) VALUES
 (42, 'Jaworzno Szczakowa', 'Jaworzno'),
 (43, 'Trzebinia', 'Trzebinia'),
 (44, 'Krzeszowice', 'Krzeszowice'),
-(45, 'Kraków Główny', 'Kraków');
+(45, 'Kraków Główny', 'Kraków'),
+(46, 'Warszawa Wschodnia', 'Warszawa');
 
 -- --------------------------------------------------------
 
@@ -558,8 +567,10 @@ INSERT INTO `transakcje` (`id_transakcji`, `id_biletu`, `id_pasazera`, `kwota`, 
 (6, 28, 2, 63.92, 'Karta', '', '2025-03-19 23:02:56'),
 (7, 29, 2, 4.00, 'Karta', '', '2025-03-20 13:53:59'),
 (8, 30, 2, 9.90, 'Karta', '', '2025-03-20 14:57:25'),
-(9, 31, 2, 85.00, '', '', '2025-03-20 15:06:11'),
-(10, 32, 2, 7.50, 'BLIK', '', '2025-03-20 18:39:17');
+(9, 31, 2, 85.00, 'BLIK', '', '2025-03-20 15:06:11'),
+(10, 32, 2, 7.50, 'BLIK', '', '2025-03-20 18:39:17'),
+(11, 33, 2, 0.01, 'BLIK', '', '2025-05-05 11:20:46'),
+(12, 34, 2, 27.00, 'Karta', '', '2025-05-14 13:53:03');
 
 -- --------------------------------------------------------
 
@@ -596,7 +607,10 @@ INSERT INTO `wagony` (`id_wagonu`, `id_skladu`, `numer_wagonu`, `typ`, `klasa`, 
 (11, 3, 4, 'Przedziałowy', 2, 72, 73, 144),
 (12, 3, 5, 'Przedziałowy', 1, 72, 1, 72),
 (13, 3, 6, 'Bezprzedziałowy', 2, 72, 73, 144),
-(14, 3, 7, 'Bezprzedziałowy', 2, 72, 145, 216);
+(14, 3, 7, '', 2, 72, 145, 216),
+(15, 4, 1, 'Bezprzedziałowy', 1, 45, 1, 45),
+(16, 4, 2, 'Bezprzedziałowy', 2, 56, 46, 102),
+(17, 4, 3, 'Bezprzedziałowy', 2, 2, 103, 104);
 
 -- --------------------------------------------------------
 
@@ -616,11 +630,36 @@ CREATE TABLE `znizki` (
 
 INSERT INTO `znizki` (`id_znizki`, `nazwa_znizki`, `wymiar_znizki`) VALUES
 (1, 'Normalny', 0.00),
-(2, 'Student', 50.00),
-(3, 'Senior', 25.00),
-(4, 'Uczeń', 37.00),
-(5, 'Rodzina pracownika', 80.00),
-(6, 'Pracownik', 99.00);
+(2, 'Student (do 26 lat)', 50.00),
+(3, 'Senior 60+', 25.00),
+(4, 'Uczeń (do 24 lat)', 37.00),
+(5, 'Dziecko/ współpracownik pracownika kolei', 80.00),
+(6, 'Pracownik kolei, usługa transportowa', 99.00),
+(7, 'Doktorant (do 35 lat)', 51.00),
+(8, 'Działacz opozycji antykomunistycznej/ osoba represjonowana z powodów politycznych', 51.00),
+(9, 'Dzieci i młodzież z niepełnosprawnością', 78.00),
+(10, 'Dziecko do lat 4', 100.00),
+(11, 'Dziecko do rozpoczęcia szkoły', 37.00),
+(12, 'Emeryt/ rencista (tylko 2 razy w roku- ważne z zaświadczeniem!)', 37.00),
+(13, 'Inwalida wojenny 9I grupa inwalidów)', 78.00),
+(14, 'Inwalida wojenny (II i III grupa inwalidów)', 37.00),
+(15, 'Karta Dużej Rodziny (KDR Rodzic)', 37.00),
+(16, 'Karta Polaka', 37.00),
+(17, 'Kombatant będący inwalidą wojennym lub wojskowym I grupy', 78.00),
+(18, 'Kombatant będący inwalidą wojennym lub wojskowym  II i III grupy', 51.00),
+(19, 'Międzynarodowa Karta Zniżek FIP', 50.00),
+(20, 'Nauczyciel szkolny lub akademicki', 33.00),
+(21, 'Niewidoma ofiara działań wojennych niezdolna do samodzielnej egzystencji', 78.00),
+(22, 'Niewidoma ofiara działań wojennych niezdolna do pracy', 37.00),
+(23, 'Niewidomy- niezdolny do samodzielnej egzystencji', 93.00),
+(24, 'Niewidomy- stopień umiarkowany', 37.00),
+(25, 'Opiekun dziecka niepełnosprawnego', 78.00),
+(26, 'Opiekun inwalidy wojennego/ wojskowego I grupy', 95.00),
+(27, 'Opiekun/ przewodnik niepełnosprawnego I grupy/ niewidomego', 95.00),
+(28, 'Osoba niezdolna do samodzielnej egzystencji z wyjątkiem niewidomych', 49.00),
+(29, 'Weteran poszkodowany', 37.00),
+(30, 'Żołnierz niezawodowy', 78.00),
+(31, 'Emeryt/ rencista kolejowy, usługa transportowa', 99.00);
 
 -- --------------------------------------------------------
 
@@ -633,7 +672,8 @@ CREATE TABLE `zwroty` (
   `id_biletu` int(11) NOT NULL,
   `id_pasazera` int(11) NOT NULL,
   `status` enum('Zaakceptowany','Odrzucony','Oczekujący') NOT NULL DEFAULT 'Oczekujący',
-  `data_zwrotu` timestamp NOT NULL DEFAULT current_timestamp()
+  `data_zwrotu` timestamp NOT NULL DEFAULT current_timestamp(),
+  `id_pracownika` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -689,15 +729,8 @@ ALTER TABLE `pociagi`
 --
 ALTER TABLE `pracownicy`
   ADD PRIMARY KEY (`id_pracownika`),
-  ADD UNIQUE KEY `login` (`login`);
-
---
--- Indeksy dla tabeli `rezerwacje`
---
-ALTER TABLE `rezerwacje`
-  ADD PRIMARY KEY (`id_rezerwacji`),
-  ADD KEY `id_pasazera` (`id_pasazera`),
-  ADD KEY `id_pociagu` (`id_pociagu`);
+  ADD UNIQUE KEY `login` (`login`),
+  ADD KEY `id_kierownika` (`id_kierownika`);
 
 --
 -- Indeksy dla tabeli `rozklad_jazdy`
@@ -748,7 +781,8 @@ ALTER TABLE `znizki`
 ALTER TABLE `zwroty`
   ADD PRIMARY KEY (`id_zwrotu`),
   ADD KEY `id_biletu` (`id_biletu`),
-  ADD KEY `id_pasazera` (`id_pasazera`);
+  ADD KEY `id_pasazera` (`id_pasazera`),
+  ADD KEY `id_pracownika` (`id_pracownika`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -758,7 +792,7 @@ ALTER TABLE `zwroty`
 -- AUTO_INCREMENT for table `bilety`
 --
 ALTER TABLE `bilety`
-  MODIFY `id_biletu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id_biletu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `ceny_odleglosci`
@@ -770,19 +804,19 @@ ALTER TABLE `ceny_odleglosci`
 -- AUTO_INCREMENT for table `odleglosci_miedzy_stacjami`
 --
 ALTER TABLE `odleglosci_miedzy_stacjami`
-  MODIFY `id_odleglosci` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `id_odleglosci` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 
 --
 -- AUTO_INCREMENT for table `pasazerowie`
 --
 ALTER TABLE `pasazerowie`
-  MODIFY `id_pasazera` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_pasazera` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `pociagi`
 --
 ALTER TABLE `pociagi`
-  MODIFY `id_pociagu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_pociagu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `pracownicy`
@@ -791,46 +825,40 @@ ALTER TABLE `pracownicy`
   MODIFY `id_pracownika` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `rezerwacje`
---
-ALTER TABLE `rezerwacje`
-  MODIFY `id_rezerwacji` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
 -- AUTO_INCREMENT for table `rozklad_jazdy`
 --
 ALTER TABLE `rozklad_jazdy`
-  MODIFY `id_rozkladu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id_rozkladu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT for table `sklady_pociagow`
 --
 ALTER TABLE `sklady_pociagow`
-  MODIFY `id_skladu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_skladu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `stacje`
 --
 ALTER TABLE `stacje`
-  MODIFY `id_stacji` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id_stacji` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `transakcje`
 --
 ALTER TABLE `transakcje`
-  MODIFY `id_transakcji` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_transakcji` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `wagony`
 --
 ALTER TABLE `wagony`
-  MODIFY `id_wagonu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_wagonu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `znizki`
 --
 ALTER TABLE `znizki`
-  MODIFY `id_znizki` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_znizki` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `zwroty`
@@ -862,11 +890,10 @@ ALTER TABLE `odleglosci_miedzy_stacjami`
   ADD CONSTRAINT `odleglosci_miedzy_stacjami_ibfk_3` FOREIGN KEY (`id_stacji_koniec`) REFERENCES `stacje` (`id_stacji`);
 
 --
--- Constraints for table `rezerwacje`
+-- Constraints for table `pracownicy`
 --
-ALTER TABLE `rezerwacje`
-  ADD CONSTRAINT `rezerwacje_ibfk_1` FOREIGN KEY (`id_pasazera`) REFERENCES `pasazerowie` (`id_pasazera`) ON DELETE CASCADE,
-  ADD CONSTRAINT `rezerwacje_ibfk_2` FOREIGN KEY (`id_pociagu`) REFERENCES `pociagi` (`id_pociagu`) ON DELETE CASCADE;
+ALTER TABLE `pracownicy`
+  ADD CONSTRAINT `pracownicy_ibfk_1` FOREIGN KEY (`id_kierownika`) REFERENCES `pracownicy` (`id_pracownika`);
 
 --
 -- Constraints for table `rozklad_jazdy`
@@ -899,7 +926,8 @@ ALTER TABLE `wagony`
 --
 ALTER TABLE `zwroty`
   ADD CONSTRAINT `zwroty_ibfk_1` FOREIGN KEY (`id_biletu`) REFERENCES `bilety` (`id_biletu`) ON DELETE CASCADE,
-  ADD CONSTRAINT `zwroty_ibfk_2` FOREIGN KEY (`id_pasazera`) REFERENCES `pasazerowie` (`id_pasazera`) ON DELETE CASCADE;
+  ADD CONSTRAINT `zwroty_ibfk_2` FOREIGN KEY (`id_pasazera`) REFERENCES `pasazerowie` (`id_pasazera`) ON DELETE CASCADE,
+  ADD CONSTRAINT `zwroty_ibfk_3` FOREIGN KEY (`id_pracownika`) REFERENCES `pracownicy` (`id_pracownika`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

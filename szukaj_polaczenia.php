@@ -86,7 +86,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php foreach ($wyniki as $pociag): ?>
             <tr>
                 <td><?= htmlspecialchars($pociag["numer_pociagu"]) ?></td>
-                <td><?= htmlspecialchars($pociag["typ"]) ?></td>
+                <td><?= htmlspecialchars($pociag["typ"]) ?>
+                <?= htmlspecialchars($pociag["nazwa"]) ?></td>
                 <td><?= htmlspecialchars($pociag["stacja_pocz"]) ?></td>
                 <td><?= htmlspecialchars($pociag["stacja_konc"]) ?></td>
                 <td><?= htmlspecialchars($pociag["godzina_wyjazdu"]) ?></td>
