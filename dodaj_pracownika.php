@@ -46,7 +46,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <label>Stanowisko:</label>
         <select name="stanowisko">
             <option value="Administrator">Administrator</option>
-            <option value="Kontroler">Kontroler</option>
+            <option value="Pracownik">Pracownik</option>
+            <option value="Kierownik">Kierownik</option>
         </select><br><br>
 
         <label>Login:</label>

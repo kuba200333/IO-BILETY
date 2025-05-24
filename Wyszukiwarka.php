@@ -22,7 +22,8 @@ class Wyszukiwarka {
                     p.typ, 
                     s1.nazwa AS stacja_pocz, 
                     s2.nazwa AS stacja_konc,
-                    r1.godzina_odjazdu AS godzina_wyjazdu
+                    r1.godzina_odjazdu AS godzina_wyjazdu,
+                    p.nazwa
                   FROM pociagi p
                   JOIN rozklad_jazdy r1 ON p.id_pociagu = r1.id_pociagu
                   JOIN rozklad_jazdy r2 ON p.id_pociagu = r2.id_pociagu

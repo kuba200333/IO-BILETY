@@ -16,8 +16,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nazwisko = htmlspecialchars(strip_tags($_POST["nazwisko"]));
     $login = htmlspecialchars(strip_tags($_POST["login"]));
     $haslo = $_POST["haslo"];
+    $telefon= $_POST["telefon"];
+    $email= $_POST['email'];
 
-    if ($user->register($imie, $nazwisko, $login, $haslo)) {
+    if ($user->register($imie, $nazwisko, $login, $haslo, $telefon, $email)) {
         echo "Rejestracja zakończona sukcesem! <a href='logowanie.php'>Zaloguj się</a>";
     } else {
         echo "Błąd podczas rejestracji.";
@@ -40,6 +42,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <label>Nazwisko:</label>
         <input type="text" name="nazwisko" required><br><br>
+
+        <label>Email:</label>
+        <input type="email" name="email" required><br><br>
+
+        <label>Numer telefonu:</label>
+        <input type="number" name="telefon" required><br><br>
 
         <label>Login:</label>
         <input type="text" name="login" required><br><br>
