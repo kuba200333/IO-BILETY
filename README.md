@@ -36,6 +36,9 @@ System umożliwia:
 - Schemat bazy danych i tabele
 - Diagramy interfejsów i przejść między formularzami
 
+![Diagram klas](diagramy/bilety.jpg)
+
+
 ---
 
 ## ⚠️ Uwaga
