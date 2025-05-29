@@ -15,8 +15,8 @@ if (isset($_SESSION["user"])) {
     exit;
 }
 
-require_once "Pasazer.php";
-require_once "Pracownik.php";
+require_once "class/Pasazer.php";
+require_once "class/Pracownik.php";
 require_once "config.php";
 
 $database = new Database();

@@ -5,7 +5,7 @@ if (isset($_SESSION["user"])) {
     exit;
 }
 
-require_once "Pasazer.php";
+require_once "class/Pasazer.php";
 
 $database = new Database();
 $db = $database->getConnection();

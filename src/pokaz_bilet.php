@@ -7,9 +7,9 @@ if (!isset($_SESSION["user"]) || $_SESSION["role"] !== "pasazer") {
 }
 
 require_once "config.php";
-require_once "Pasazer.php";
-require_once "Bilet.php";
-require_once "RozkladJazdy.php";
+require_once "class/Pasazer.php";
+require_once "class/Bilet.php";
+require_once "class/RozkladJazdy.php";
 
 $database = new Database();
 $db = $database->getConnection();

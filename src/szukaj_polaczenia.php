@@ -1,8 +1,8 @@
 <?php
 session_start();
 require_once "config.php";
-require_once "RozkladJazdy.php";
-require_once "Stacje.php";
+require_once "class/RozkladJazdy.php";
+require_once "class/Stacje.php";
 
 $database = new Database();
 $db = $database->getConnection();
@@ -64,10 +64,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="time" name="godzina" value="<?= $aktualna_godzina ?>"><br><br>
 
         <label>Typ pociągu:</label><br>
-        <input type="checkbox" name="typ_pociagu[]" value="TLK"> TLK
-        <input type="checkbox" name="typ_pociagu[]" value="IC"> IC
-        <input type="checkbox" name="typ_pociagu[]" value="EIC"> EIC
-        <input type="checkbox" name="typ_pociagu[]" value="EIP"> EIP
+        <input type="checkbox" name="typ_pociagu[]" value="TLK" checked> TLK
+        <input type="checkbox" name="typ_pociagu[]" value="IC" checked> IC
+        <input type="checkbox" name="typ_pociagu[]" value="EIC" checked> EIC
+        <input type="checkbox" name="typ_pociagu[]" value="EIP" checked> EIP
         <br><br>
 
         <input type="submit" value="Szukaj">
