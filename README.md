@@ -36,6 +36,15 @@ System umożliwia:
 - Schemat bazy danych i tabele
 - Diagramy interfejsów i przejść między formularzami
 
+Przykładowe diagramy:
+![Schemat Bazy Danych](https://github.com/user-attachments/assets/eacc3366-ecf0-4755-9255-2a8fe9c589ae)
+![Diagram Sekwencji](https://github.com/user-attachments/assets/fc823e6f-c700-4059-b79f-bf8a933c0ac8)
+
+
+---
+
+## 🖼️ Projekty graficzne
+
 ---
 
 ## ⚠️ Uwaga
