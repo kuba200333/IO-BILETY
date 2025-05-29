@@ -5,11 +5,11 @@ if (isset($_SESSION["user"])) {
     exit;
 }
 
-require_once "User.php";
+require_once "Pasazer.php";
 
 $database = new Database();
 $db = $database->getConnection();
-$user = new User($db, "pasazer");
+$user = new Pasazer($db, "pasazer");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $imie = htmlspecialchars(strip_tags($_POST["imie"]));

@@ -3,11 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
-<<<<<<< HEAD:bilety.sql
--- Generation Time: Maj 07, 2025 at 06:11 PM
-=======
--- Generation Time: Maj 14, 2025 at 10:58 PM
->>>>>>> 7d6e47bcc9d8a2df5347226e9294d0a3a1fbbdae:bilet.sql
+-- Generation Time: Maj 29, 2025 at 10:31 AM
 -- Wersja serwera: 10.4.32-MariaDB
 -- Wersja PHP: 8.2.12
 
@@ -45,8 +41,6 @@ CREATE TABLE `bilety` (
   `id_znizki` int(11) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-<<<<<<< HEAD:bilety.sql
-=======
 --
 -- Dumping data for table `bilety`
 --
@@ -63,7 +57,6 @@ INSERT INTO `bilety` (`id_biletu`, `id_pasazera`, `id_pociagu`, `id_stacji_start
 (33, 2, 1, 1, 3, '12', 0.01, '2025-05-05', '533deff0ea15d5bc2aa86189f5fc4dd1', 1, 2),
 (34, 2, 1, 1, 3, '3', 27.00, '2025-05-14', '22d3ef86e129d13210d660a02457b56b', 2, 1);
 
->>>>>>> 7d6e47bcc9d8a2df5347226e9294d0a3a1fbbdae:bilet.sql
 -- --------------------------------------------------------
 
 --
@@ -77,6 +70,162 @@ CREATE TABLE `ceny_odleglosci` (
   `cena` decimal(6,2) NOT NULL,
   `klasa` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `ceny_odleglosci`
+--
+
+INSERT INTO `ceny_odleglosci` (`id_ceny`, `odleglosc_min`, `odleglosc_max`, `cena`, `klasa`) VALUES
+(1, 0, 40, 15.00, 2),
+(2, 41, 45, 17.00, 2),
+(3, 46, 50, 19.00, 2),
+(4, 51, 55, 20.00, 2),
+(5, 56, 60, 23.00, 2),
+(6, 61, 65, 24.00, 2),
+(7, 66, 70, 25.00, 2),
+(8, 71, 75, 26.00, 2),
+(9, 76, 80, 27.00, 2),
+(10, 81, 85, 28.00, 2),
+(11, 86, 90, 29.00, 2),
+(12, 91, 95, 31.00, 2),
+(13, 96, 100, 33.00, 2),
+(14, 101, 105, 34.00, 2),
+(15, 106, 110, 35.00, 2),
+(16, 111, 115, 36.00, 2),
+(17, 116, 120, 37.00, 2),
+(18, 121, 125, 38.00, 2),
+(19, 126, 130, 40.00, 2),
+(20, 131, 135, 41.00, 2),
+(21, 136, 140, 42.00, 2),
+(22, 141, 145, 43.00, 2),
+(23, 146, 150, 45.00, 2),
+(24, 151, 155, 46.00, 2),
+(25, 156, 160, 47.00, 2),
+(26, 161, 165, 49.00, 2),
+(27, 166, 170, 50.00, 2),
+(28, 171, 175, 51.00, 2),
+(29, 176, 180, 52.00, 2),
+(30, 181, 185, 53.00, 2),
+(31, 186, 190, 54.00, 2),
+(32, 191, 195, 55.00, 2),
+(33, 196, 200, 57.00, 2),
+(34, 201, 210, 58.00, 2),
+(35, 211, 220, 59.00, 2),
+(36, 221, 230, 60.00, 2),
+(37, 231, 240, 61.00, 2),
+(38, 241, 250, 62.00, 2),
+(39, 251, 260, 63.00, 2),
+(40, 261, 270, 64.00, 2),
+(41, 271, 280, 66.00, 2),
+(42, 281, 290, 67.00, 2),
+(43, 291, 300, 68.00, 2),
+(44, 301, 310, 69.00, 2),
+(45, 311, 320, 70.00, 2),
+(46, 321, 340, 71.00, 2),
+(47, 341, 360, 72.00, 2),
+(48, 361, 380, 73.00, 2),
+(49, 381, 400, 75.00, 2),
+(50, 401, 420, 76.00, 2),
+(51, 421, 440, 77.00, 2),
+(52, 441, 460, 78.00, 2),
+(53, 461, 480, 79.00, 2),
+(54, 481, 500, 80.00, 2),
+(55, 501, 520, 81.00, 2),
+(56, 521, 540, 82.00, 2),
+(57, 541, 560, 84.00, 2),
+(58, 561, 580, 85.00, 2),
+(59, 581, 600, 86.00, 2),
+(60, 601, 620, 87.00, 2),
+(61, 621, 640, 88.00, 2),
+(62, 641, 660, 89.00, 2),
+(63, 661, 680, 90.00, 2),
+(64, 681, 700, 92.00, 2),
+(65, 701, 720, 93.00, 2),
+(66, 721, 740, 94.00, 2),
+(67, 741, 760, 95.00, 2),
+(68, 761, 780, 96.00, 2),
+(69, 781, 800, 97.00, 2),
+(70, 801, 820, 98.00, 2),
+(71, 821, 840, 99.00, 2),
+(72, 841, 880, 101.00, 2),
+(73, 881, 920, 102.00, 2),
+(74, 921, 960, 103.00, 2),
+(75, 961, 1000, 104.00, 2),
+(76, 0, 40, 23.00, 1),
+(77, 41, 45, 24.00, 1),
+(78, 46, 50, 26.00, 1),
+(79, 51, 55, 27.00, 1),
+(80, 56, 60, 29.00, 1),
+(81, 61, 65, 32.00, 1),
+(82, 66, 70, 33.00, 1),
+(83, 71, 75, 34.00, 1),
+(84, 76, 80, 36.00, 1),
+(85, 81, 85, 37.00, 1),
+(86, 86, 90, 38.00, 1),
+(87, 91, 95, 41.00, 1),
+(88, 96, 100, 43.00, 1),
+(89, 101, 105, 44.00, 1),
+(90, 106, 110, 46.00, 1),
+(91, 111, 115, 47.00, 1),
+(92, 116, 120, 49.00, 1),
+(93, 121, 125, 51.00, 1),
+(94, 126, 130, 52.00, 1),
+(95, 131, 135, 53.00, 1),
+(96, 136, 140, 55.00, 1),
+(97, 141, 145, 57.00, 1),
+(98, 146, 150, 59.00, 1),
+(99, 151, 155, 61.00, 1),
+(100, 156, 160, 62.00, 1),
+(101, 161, 165, 63.00, 1),
+(102, 166, 170, 66.00, 1),
+(103, 171, 175, 67.00, 1),
+(104, 176, 180, 68.00, 1),
+(105, 181, 185, 70.00, 1),
+(106, 186, 190, 71.00, 1),
+(107, 191, 195, 72.00, 1),
+(108, 196, 200, 73.00, 1),
+(109, 201, 210, 76.00, 1),
+(110, 211, 220, 77.00, 1),
+(111, 221, 230, 78.00, 1),
+(112, 231, 240, 80.00, 1),
+(113, 241, 250, 81.00, 1),
+(114, 251, 260, 82.00, 1),
+(115, 261, 270, 85.00, 1),
+(116, 271, 280, 86.00, 1),
+(117, 281, 290, 87.00, 1),
+(118, 291, 300, 88.00, 1),
+(119, 301, 310, 90.00, 1),
+(120, 311, 320, 92.00, 1),
+(121, 321, 340, 93.00, 1),
+(122, 341, 360, 95.00, 1),
+(123, 361, 380, 96.00, 1),
+(124, 381, 400, 97.00, 1),
+(125, 401, 420, 99.00, 1),
+(126, 421, 440, 101.00, 1),
+(127, 441, 460, 102.00, 1),
+(128, 461, 480, 103.00, 1),
+(129, 481, 500, 105.00, 1),
+(130, 501, 520, 106.00, 1),
+(131, 521, 540, 107.00, 1),
+(132, 541, 560, 110.00, 1),
+(133, 561, 580, 111.00, 1),
+(134, 581, 600, 112.00, 1),
+(135, 601, 620, 114.00, 1),
+(136, 621, 640, 115.00, 1),
+(137, 641, 660, 116.00, 1),
+(138, 661, 680, 118.00, 1),
+(139, 681, 700, 120.00, 1),
+(140, 701, 720, 121.00, 1),
+(141, 721, 740, 122.00, 1),
+(142, 741, 760, 124.00, 1),
+(143, 761, 780, 125.00, 1),
+(144, 781, 800, 127.00, 1),
+(145, 801, 820, 129.00, 1),
+(146, 821, 840, 130.00, 1),
+(147, 841, 880, 131.00, 1),
+(148, 881, 920, 132.00, 1),
+(149, 921, 960, 134.00, 1),
+(150, 961, 1000, 136.00, 1);
 
 -- --------------------------------------------------------
 
@@ -92,8 +241,6 @@ CREATE TABLE `odleglosci_miedzy_stacjami` (
   `odleglosc_km` decimal(6,1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-<<<<<<< HEAD:bilety.sql
-=======
 --
 -- Dumping data for table `odleglosci_miedzy_stacjami`
 --
@@ -155,7 +302,6 @@ INSERT INTO `odleglosci_miedzy_stacjami` (`id_odleglosci`, `id_pociagu`, `id_sta
 (81, 3, 21, 22, 5.0),
 (82, 3, 22, 46, 5.0);
 
->>>>>>> 7d6e47bcc9d8a2df5347226e9294d0a3a1fbbdae:bilet.sql
 -- --------------------------------------------------------
 
 --
@@ -172,8 +318,6 @@ CREATE TABLE `pasazerowie` (
   `haslo` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-<<<<<<< HEAD:bilety.sql
-=======
 --
 -- Dumping data for table `pasazerowie`
 --
@@ -183,7 +327,6 @@ INSERT INTO `pasazerowie` (`id_pasazera`, `imie`, `nazwisko`, `email`, `telefon`
 (2, 'Dariusz', 'Nowak', '', '', 'dariusz_nowak', '$2y$10$URssYzJbgFIUMkH7KeLls.98EPhDb.LrsDOQafJ.E8.Z6lmP/2BEO'),
 (3, 'Łukasz', 'Radliński', 'lradlinski@lradlinski.pl', '522852752', 'lradlinski', '$2y$10$Di2CGGNkprIeHM9Vi5SufextNkyDpgx7Q.rf7zd5mUpiVR9zCxsUW');
 
->>>>>>> 7d6e47bcc9d8a2df5347226e9294d0a3a1fbbdae:bilet.sql
 -- --------------------------------------------------------
 
 --
@@ -199,8 +342,6 @@ CREATE TABLE `pociagi` (
   `do` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-<<<<<<< HEAD:bilety.sql
-=======
 --
 -- Dumping data for table `pociagi`
 --
@@ -210,7 +351,6 @@ INSERT INTO `pociagi` (`id_pociagu`, `numer_pociagu`, `typ`, `nazwa`, `od`, `do`
 (2, 83172, 'IC', 'PRZEMYŚLANIN', '2025-03-09', '2025-06-30'),
 (3, 8102, 'EIP', '', '2025-05-06', '2025-08-31');
 
->>>>>>> 7d6e47bcc9d8a2df5347226e9294d0a3a1fbbdae:bilet.sql
 -- --------------------------------------------------------
 
 --
@@ -229,8 +369,6 @@ CREATE TABLE `pracownicy` (
   `id_kierownika` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-<<<<<<< HEAD:bilety.sql
-=======
 --
 -- Dumping data for table `pracownicy`
 --
@@ -239,7 +377,6 @@ INSERT INTO `pracownicy` (`id_pracownika`, `imie`, `nazwisko`, `stanowisko`, `te
 (1, 'Marek', 'Nowak', 'Pracownik', 562875465, 'marek_nowak@marek_nowak.pl', 'marek_nowak', '$2y$10$KOC5.TbWKqNaWsxPUhYCVOd2HgGDOWw8OkuM29Pn1/4B4UOpj3z9C', NULL),
 (3, 'Jakub', 'Wierciński', 'Administrator', 452685425, 'wiercinski_jakub@wiercinski_jakub.pl', 'wiercinski_jakub', '$2y$10$KOC5.TbWKqNaWsxPUhYCVOd2HgGDOWw8OkuM29Pn1/4B4UOpj3z9C', 3);
 
->>>>>>> 7d6e47bcc9d8a2df5347226e9294d0a3a1fbbdae:bilet.sql
 -- --------------------------------------------------------
 
 --
@@ -254,8 +391,6 @@ CREATE TABLE `rozklad_jazdy` (
   `godzina_odjazdu` time DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-<<<<<<< HEAD:bilety.sql
-=======
 --
 -- Dumping data for table `rozklad_jazdy`
 --
@@ -320,7 +455,6 @@ INSERT INTO `rozklad_jazdy` (`id_rozkladu`, `id_pociagu`, `id_stacji`, `godzina_
 (58, 3, 22, '11:57:00', '11:59:00'),
 (59, 3, 46, '12:16:00', '00:00:00');
 
->>>>>>> 7d6e47bcc9d8a2df5347226e9294d0a3a1fbbdae:bilet.sql
 -- --------------------------------------------------------
 
 --
@@ -333,8 +467,6 @@ CREATE TABLE `sklady_pociagow` (
   `nazwa_skladu` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-<<<<<<< HEAD:bilety.sql
-=======
 --
 -- Dumping data for table `sklady_pociagow`
 --
@@ -344,7 +476,6 @@ INSERT INTO `sklady_pociagow` (`id_skladu`, `id_pociagu`, `nazwa_skladu`) VALUES
 (3, 2, 'Skład IC 83172'),
 (4, 3, 'EIP 8102');
 
->>>>>>> 7d6e47bcc9d8a2df5347226e9294d0a3a1fbbdae:bilet.sql
 -- --------------------------------------------------------
 
 --
@@ -357,8 +488,6 @@ CREATE TABLE `stacje` (
   `miasto` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-<<<<<<< HEAD:bilety.sql
-=======
 --
 -- Dumping data for table `stacje`
 --
@@ -411,7 +540,6 @@ INSERT INTO `stacje` (`id_stacji`, `nazwa`, `miasto`) VALUES
 (45, 'Kraków Główny', 'Kraków'),
 (46, 'Warszawa Wschodnia', 'Warszawa');
 
->>>>>>> 7d6e47bcc9d8a2df5347226e9294d0a3a1fbbdae:bilet.sql
 -- --------------------------------------------------------
 
 --
@@ -428,8 +556,6 @@ CREATE TABLE `transakcje` (
   `data_transakcji` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-<<<<<<< HEAD:bilety.sql
-=======
 --
 -- Dumping data for table `transakcje`
 --
@@ -446,7 +572,6 @@ INSERT INTO `transakcje` (`id_transakcji`, `id_biletu`, `id_pasazera`, `kwota`, 
 (11, 33, 2, 0.01, 'BLIK', '', '2025-05-05 11:20:46'),
 (12, 34, 2, 27.00, 'Karta', '', '2025-05-14 13:53:03');
 
->>>>>>> 7d6e47bcc9d8a2df5347226e9294d0a3a1fbbdae:bilet.sql
 -- --------------------------------------------------------
 
 --
@@ -464,8 +589,6 @@ CREATE TABLE `wagony` (
   `miejsce_do` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-<<<<<<< HEAD:bilety.sql
-=======
 --
 -- Dumping data for table `wagony`
 --
@@ -489,7 +612,6 @@ INSERT INTO `wagony` (`id_wagonu`, `id_skladu`, `numer_wagonu`, `typ`, `klasa`, 
 (16, 4, 2, 'Bezprzedziałowy', 2, 56, 46, 102),
 (17, 4, 3, 'Bezprzedziałowy', 2, 2, 103, 104);
 
->>>>>>> 7d6e47bcc9d8a2df5347226e9294d0a3a1fbbdae:bilet.sql
 -- --------------------------------------------------------
 
 --
@@ -502,8 +624,6 @@ CREATE TABLE `znizki` (
   `wymiar_znizki` decimal(5,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-<<<<<<< HEAD:bilety.sql
-=======
 --
 -- Dumping data for table `znizki`
 --
@@ -541,7 +661,6 @@ INSERT INTO `znizki` (`id_znizki`, `nazwa_znizki`, `wymiar_znizki`) VALUES
 (30, 'Żołnierz niezawodowy', 78.00),
 (31, 'Emeryt/ rencista kolejowy, usługa transportowa', 99.00);
 
->>>>>>> 7d6e47bcc9d8a2df5347226e9294d0a3a1fbbdae:bilet.sql
 -- --------------------------------------------------------
 
 --
@@ -610,12 +729,8 @@ ALTER TABLE `pociagi`
 --
 ALTER TABLE `pracownicy`
   ADD PRIMARY KEY (`id_pracownika`),
-<<<<<<< HEAD:bilety.sql
-  ADD UNIQUE KEY `login` (`login`);
-=======
   ADD UNIQUE KEY `login` (`login`),
   ADD KEY `id_kierownika` (`id_kierownika`);
->>>>>>> 7d6e47bcc9d8a2df5347226e9294d0a3a1fbbdae:bilet.sql
 
 --
 -- Indeksy dla tabeli `rozklad_jazdy`
@@ -677,117 +792,73 @@ ALTER TABLE `zwroty`
 -- AUTO_INCREMENT for table `bilety`
 --
 ALTER TABLE `bilety`
-<<<<<<< HEAD:bilety.sql
-  MODIFY `id_biletu` int(11) NOT NULL AUTO_INCREMENT;
-=======
   MODIFY `id_biletu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
->>>>>>> 7d6e47bcc9d8a2df5347226e9294d0a3a1fbbdae:bilet.sql
 
 --
 -- AUTO_INCREMENT for table `ceny_odleglosci`
 --
 ALTER TABLE `ceny_odleglosci`
-  MODIFY `id_ceny` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_ceny` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=151;
 
 --
 -- AUTO_INCREMENT for table `odleglosci_miedzy_stacjami`
 --
 ALTER TABLE `odleglosci_miedzy_stacjami`
-<<<<<<< HEAD:bilety.sql
-  MODIFY `id_odleglosci` int(11) NOT NULL AUTO_INCREMENT;
-=======
   MODIFY `id_odleglosci` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
->>>>>>> 7d6e47bcc9d8a2df5347226e9294d0a3a1fbbdae:bilet.sql
 
 --
 -- AUTO_INCREMENT for table `pasazerowie`
 --
 ALTER TABLE `pasazerowie`
-<<<<<<< HEAD:bilety.sql
-  MODIFY `id_pasazera` int(11) NOT NULL AUTO_INCREMENT;
-=======
   MODIFY `id_pasazera` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
->>>>>>> 7d6e47bcc9d8a2df5347226e9294d0a3a1fbbdae:bilet.sql
 
 --
 -- AUTO_INCREMENT for table `pociagi`
 --
 ALTER TABLE `pociagi`
-<<<<<<< HEAD:bilety.sql
-  MODIFY `id_pociagu` int(11) NOT NULL AUTO_INCREMENT;
-=======
   MODIFY `id_pociagu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
->>>>>>> 7d6e47bcc9d8a2df5347226e9294d0a3a1fbbdae:bilet.sql
 
 --
 -- AUTO_INCREMENT for table `pracownicy`
 --
 ALTER TABLE `pracownicy`
-<<<<<<< HEAD:bilety.sql
-  MODIFY `id_pracownika` int(11) NOT NULL AUTO_INCREMENT;
-=======
   MODIFY `id_pracownika` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
->>>>>>> 7d6e47bcc9d8a2df5347226e9294d0a3a1fbbdae:bilet.sql
 
 --
 -- AUTO_INCREMENT for table `rozklad_jazdy`
 --
 ALTER TABLE `rozklad_jazdy`
-<<<<<<< HEAD:bilety.sql
-  MODIFY `id_rozkladu` int(11) NOT NULL AUTO_INCREMENT;
-=======
   MODIFY `id_rozkladu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
->>>>>>> 7d6e47bcc9d8a2df5347226e9294d0a3a1fbbdae:bilet.sql
 
 --
 -- AUTO_INCREMENT for table `sklady_pociagow`
 --
 ALTER TABLE `sklady_pociagow`
-<<<<<<< HEAD:bilety.sql
-  MODIFY `id_skladu` int(11) NOT NULL AUTO_INCREMENT;
-=======
   MODIFY `id_skladu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
->>>>>>> 7d6e47bcc9d8a2df5347226e9294d0a3a1fbbdae:bilet.sql
 
 --
 -- AUTO_INCREMENT for table `stacje`
 --
 ALTER TABLE `stacje`
-<<<<<<< HEAD:bilety.sql
-  MODIFY `id_stacji` int(11) NOT NULL AUTO_INCREMENT;
-=======
   MODIFY `id_stacji` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
->>>>>>> 7d6e47bcc9d8a2df5347226e9294d0a3a1fbbdae:bilet.sql
 
 --
 -- AUTO_INCREMENT for table `transakcje`
 --
 ALTER TABLE `transakcje`
-<<<<<<< HEAD:bilety.sql
-  MODIFY `id_transakcji` int(11) NOT NULL AUTO_INCREMENT;
-=======
   MODIFY `id_transakcji` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
->>>>>>> 7d6e47bcc9d8a2df5347226e9294d0a3a1fbbdae:bilet.sql
 
 --
 -- AUTO_INCREMENT for table `wagony`
 --
 ALTER TABLE `wagony`
-<<<<<<< HEAD:bilety.sql
-  MODIFY `id_wagonu` int(11) NOT NULL AUTO_INCREMENT;
-=======
   MODIFY `id_wagonu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
->>>>>>> 7d6e47bcc9d8a2df5347226e9294d0a3a1fbbdae:bilet.sql
 
 --
 -- AUTO_INCREMENT for table `znizki`
 --
 ALTER TABLE `znizki`
-<<<<<<< HEAD:bilety.sql
-  MODIFY `id_znizki` int(11) NOT NULL AUTO_INCREMENT;
-=======
   MODIFY `id_znizki` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
->>>>>>> 7d6e47bcc9d8a2df5347226e9294d0a3a1fbbdae:bilet.sql
 
 --
 -- AUTO_INCREMENT for table `zwroty`
@@ -819,15 +890,12 @@ ALTER TABLE `odleglosci_miedzy_stacjami`
   ADD CONSTRAINT `odleglosci_miedzy_stacjami_ibfk_3` FOREIGN KEY (`id_stacji_koniec`) REFERENCES `stacje` (`id_stacji`);
 
 --
-<<<<<<< HEAD:bilety.sql
-=======
 -- Constraints for table `pracownicy`
 --
 ALTER TABLE `pracownicy`
   ADD CONSTRAINT `pracownicy_ibfk_1` FOREIGN KEY (`id_kierownika`) REFERENCES `pracownicy` (`id_pracownika`);
 
 --
->>>>>>> 7d6e47bcc9d8a2df5347226e9294d0a3a1fbbdae:bilet.sql
 -- Constraints for table `rozklad_jazdy`
 --
 ALTER TABLE `rozklad_jazdy`

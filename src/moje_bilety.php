@@ -1,86 +1,63 @@
 <?php
-require_once "config.php";
-
 session_start();
 
-// Sprawdzenie, czy użytkownik jest zalogowany
-if (!isset($_SESSION["user"])) {
-    die("Musisz być zalogowany, aby zobaczyć swoje bilety.");
+if (!isset($_SESSION["user"]) || $_SESSION["role"] !== "pasazer") {
+    header("Location: index.php");
+    exit;
 }
+
+require_once "config.php";
+require_once "Pasazer.php";
+require_once "Bilet.php";
 
 $database = new Database();
 $db = $database->getConnection();
 
-$login = $_SESSION["user"];
+// Tworzymy obiekt pasażera na podstawie sesji
+$pasazer = new Pasazer($db);
+$pasazer->loadByLogin($_SESSION["user"]); // metoda ładuje dane pasażera z bazy
 
-// Pobranie ID pasażera na podstawie loginu
-$query_pasazer = "SELECT id_pasazera FROM pasazerowie WHERE login = :login";
-$stmt = $db->prepare($query_pasazer);
-$stmt->bindParam(":login", $login, PDO::PARAM_STR);
-$stmt->execute();
-$row_pasazer = $stmt->fetch(PDO::FETCH_ASSOC);
+$bilet = new Bilet($db);
+$bilety = $pasazer->getBilety(); // tablica asocjacyjna z biletami
 
-if (!$row_pasazer) {
-    die("Błąd: Nie znaleziono pasażera w bazie.");
-}
-
-$id_pasazera = $row_pasazer["id_pasazera"];
-
-// Pobranie biletów pasażera
-$query_bilety = "SELECT bilety.id_biletu, pociagi.numer_pociagu, st1.nazwa AS stacja_start, st2.nazwa AS stacja_koniec,
-                        bilety.miejsce, bilety.cena, bilety.data_podrozy, bilety.id_wagonu 
-                 FROM bilety 
-                 JOIN pociagi ON bilety.id_pociagu = pociagi.id_pociagu 
-                 JOIN stacje st1 ON bilety.id_stacji_start = st1.id_stacji 
-                 JOIN stacje st2 ON bilety.id_stacji_koniec = st2.id_stacji 
-                 WHERE bilety.id_pasazera = :id_pasazera";
-$stmt = $db->prepare($query_bilety);
-$stmt->bindParam(":id_pasazera", $id_pasazera, PDO::PARAM_INT);
-$stmt->execute();
-$bilety = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moje Bilety</title>
-    <style>
-        table { width: 100%; border-collapse: collapse; }
-        th, td { border: 1px solid black; padding: 10px; text-align: left; }
-        th { background-color: #f2f2f2; }
-    </style>
+    <title>Moje bilety</title>
 </head>
 <body>
-    <h2>Moje Bilety</h2>
-    <table>
-        <tr>
-            <th>ID Biletu</th>
-            <th>Numer Pociągu</th>
-            <th>Stacja Początkowa</th>
-            <th>Stacja Końcowa</th>
-            <th>Miejsce</th>
-            <th>Wagon</th>
-            <th>Cena</th>
-            <th>Data Podróży</th>
-            <th>Akcja</th>
-        </tr>
-        <?php foreach ($bilety as $bilet): ?>
-        <tr>
-            <td><?= htmlspecialchars($bilet["id_biletu"]) ?></td>
-            <td><?= htmlspecialchars($bilet["numer_pociagu"]) ?></td>
-            <td><?= htmlspecialchars($bilet["stacja_start"]) ?></td>
-            <td><?= htmlspecialchars($bilet["stacja_koniec"]) ?></td>
-            <td><?= htmlspecialchars($bilet["miejsce"]) ?></td>
-            <td><?= htmlspecialchars($bilet["id_wagonu"]) ?></td>
-            <td><?= htmlspecialchars($bilet["cena"]) ?> PLN</td>
-            <td><?= htmlspecialchars($bilet["data_podrozy"]) ?></td>
-            <td>
-                <a href="pokaz_bilet.php?id_biletu=<?= $bilet['id_biletu'] ?>">Pokaż bilet</a>
-            </td>
-        </tr>
-        <?php endforeach; ?>
-    </table>
+    <h2>Twoje bilety</h2>
+    <?php if (empty($bilety)): ?>
+        <p>Brak zapisanych biletów.</p>
+    <?php else: ?>
+        <table border="1">
+            <tr>
+                <th>Data podróży</th>
+                <th>Pociąg</th>
+                <th>Trasa</th>
+                <th>Wagon/Miejsce</th>
+                <th>Cena</th>
+                <th>Szczegóły</th>
+            </tr>
+            <?php foreach ($bilety as $b): ?>
+                <tr>                   
+                    <td><?= htmlspecialchars($b['data_podrozy']) ?></td>
+                    <td><?= htmlspecialchars($b['numer_pociagu']) ?></td>
+                    <td><?= htmlspecialchars($b['stacja_start']) ?> → <?= htmlspecialchars($b['stacja_koniec']) ?></td>
+                    <td><?= htmlspecialchars($b['wagon']) ?>/<?= htmlspecialchars($b['miejsce']) ?></td>
+                    <td><?= number_format($b['cena'], 2) ?> zł</td>
+                    <td>
+                        <form action="pokaz_bilet.php" method="post" style="margin:0;">
+                            <input type="hidden" name="id_biletu" value="<?= htmlspecialchars($b['id_biletu']) ?>">
+                            <button type="submit">Pokaż bilet</button>
+                        </form>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+    <?php endif; ?>
 </body>
 </html>
