@@ -54,7 +54,7 @@ if ($numer_pociagu && $stacja_start && $stacja_koniec) {
 
     if ($klasa_wybrana && $numer_pociagu) {
         $wagon_lista = $wagonyObj->pobierzWagonyDlaPociagu($numer_pociagu, $klasa_wybrana);
-        $zajete_miejsca = $wagonyObj->pobierzZajeteMiejsca($numer_pociagu, $data_podrozy);
+        $zajete_miejsca = $wagonyObj->pobierzZajeteMiejscaNaOdcinku($numer_pociagu, $data_podrozy, $id_stacji_start, $id_stacji_koniec);
     }
     #echo '<pre>' . print_r($zajete_miejsca, true) . '</pre>';
     echo '<script>';
@@ -292,8 +292,8 @@ if ($numer_pociagu && $stacja_start && $stacja_koniec) {
                                     ?>
                                     <div class="miejsce"
                                         data-nr="<?= $m ?>"
-                                        data-wagon="<?= $wagon["id_wagonu"] ?>"
-                                        onclick="wybierzMiejsce('<?= $wagon["id_wagonu"] ?>', <?= $m ?>, this)">
+                                        data-wagon="<?= $wagon["numer_wagonu"] ?>"
+                                        onclick="wybierzMiejsce('<?= $wagon["numer_wagonu"] ?>', <?= $m ?>, this)">
                                         <?= $m ?>
                                     </div>
                                     <?php
@@ -325,7 +325,8 @@ if ($numer_pociagu && $stacja_start && $stacja_koniec) {
             <select name="metoda_platnosci">
                 <option value="karta">Karta płatnicza</option>
                 <option value="blik">BLIK</option>
-                <option value="gotówka">Gotówka</option>
+                <option value="google_pay">Google Pay</option>
+                <option value="apple_pay">Apple Pay</option>
             </select><br><br>
 
             <h3>Cena końcowa:</h3>
