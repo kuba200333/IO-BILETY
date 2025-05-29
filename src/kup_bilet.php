@@ -307,6 +307,11 @@ if ($numer_pociagu && $stacja_start && $stacja_koniec) {
             <?php endif; ?>
             </div>
             <div class='cos'>
+            <h3>Legenda</h3>
+            Miejsce wolne: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<img src="image/zielone_miejsce.png" alt="Miejsce wolne">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+            Miejsce zajęte: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<img src="image/szare_miejsce.png" alt="Miejsce zajęte"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+            Miejsce wybrane:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <img src="image/pomaranczowe_miejsce.png" alt="Miejsce wybrane"><br>
+
             <h3>Wybierz zniżkę:</h3>
             <select name="znizka" id="znizka" onchange="aktualizujCene()">
                 <?php foreach ($znizki as $znizka): ?>
