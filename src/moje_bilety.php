@@ -29,6 +29,8 @@ $bilety = $pasazer->getBilety(); // tablica asocjacyjna z biletami
     <title>Moje bilety</title>
 </head>
 <body>
+    <a href="index.php">Powrót do strony głównej</a>
+
     <h2>Twoje bilety</h2>
     <?php if (empty($bilety)): ?>
         <p>Brak zapisanych biletów.</p>
