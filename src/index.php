@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Przekierowanie na podstawie zapisanej roli w sesji, jeśli użytkownik jest zalogowany
 if (isset($_SESSION["user"]) && isset($_SESSION["role"])) {
     if ($_SESSION["role"] === "pasazer") {
         header("Location: index_pasazer.php");

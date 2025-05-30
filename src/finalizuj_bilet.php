@@ -9,6 +9,12 @@ if (!isset($_SESSION["user"]) || $_SESSION["role"] !== "pasazer") {
     exit;
 }
 
+if (!isset($_SERVER["HTTP_REFERER"]) || strpos($_SERVER["HTTP_REFERER"], "kup_bilet.php") === false) {
+    header("Location: index.php");
+    exit;
+}
+
+
 $database = new Database();
 $db = $database->getConnection();
 $bilet = new Bilet($db);
