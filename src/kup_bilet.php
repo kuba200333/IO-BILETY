@@ -1,4 +1,11 @@
 <?php
+session_start();
+
+if (!isset($_SESSION["user"]) || $_SESSION["role"] !== "pasazer") {
+    header("Location: index.php");
+    exit;
+}
+
 require_once "config.php";
 require_once "class/Bilet.php";
 require_once "class/Znizka.php";

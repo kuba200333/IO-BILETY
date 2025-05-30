@@ -4,8 +4,9 @@ require_once "class/Bilet.php";
 
 session_start();
 
-if (!isset($_SESSION["user"])) {
-    die("Musisz być zalogowany, aby kupić bilet.");
+if (!isset($_SESSION["user"]) || $_SESSION["role"] !== "pasazer") {
+    header("Location: index.php");
+    exit;
 }
 
 $database = new Database();
