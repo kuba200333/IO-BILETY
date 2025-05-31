@@ -18,8 +18,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $haslo = $_POST["haslo"];
     $telefon= $_POST["telefon"];
     $email= $_POST['email'];
+    $kod_pocztowy= $_POST['kod_pocztowy'];
+    $adres= $_POST['adres'];
+    $miejscowosc= $_POST['miejscowosc'];
 
-    if ($user->register($imie, $nazwisko, $login, $haslo, $telefon, $email)) {
+    if ($user->register($imie, $nazwisko, $login, $haslo, $telefon, $email, $kod_pocztowy, $adres, $miejscowosc)) {
+        header("Location: index.php");
         echo "Rejestracja zakończona sukcesem! <a href='logowanie.php'>Zaloguj się</a>";
     } else {
         echo "Błąd podczas rejestracji.";
@@ -42,6 +46,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <label>Nazwisko:</label>
         <input type="text" name="nazwisko" required><br><br>
+
+        <label>Ulica, numer domu:</label>
+        <input type="text" name="adres" required><br><br>
+
+        <label>Miejscowość:</label>
+        <input type="text" name="miejscowosc" required><br><br>
+
+        <label>Kod pocztowy:</label>
+        <input type="text" name="kod_pocztowy" required><br><br>
 
         <label>Email:</label>
         <input type="email" name="email" required><br><br>

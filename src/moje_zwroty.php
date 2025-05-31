@@ -33,16 +33,17 @@ $listaZwrotow = $zwroty->getZwrotyByPasazerId($pasazer->id);
     </style>
 </head>
 <body>
+    <a href="index.php">Strona główna</a>
     <h2>Moje Zwroty</h2>
 
     <table>
         <thead>
             <tr>
-                <th>ID Zwrotu</th>
-                <th>ID Biletu</th>
+                <th>Numer Zwrotu</th>
+                <th>Numer Biletu</th>
+                <th>Relacja</th>
                 <th>Status</th>
                 <th>Data Zwrotu</th>
-                <th>ID Pracownika</th>
                 <th>Szczegóły</th>
             </tr>
         </thead>
@@ -51,9 +52,9 @@ $listaZwrotow = $zwroty->getZwrotyByPasazerId($pasazer->id);
                 <tr>
                     <td><?= htmlspecialchars($zwrot["id_zwrotu"]) ?></td>
                     <td><?= htmlspecialchars($zwrot["id_biletu"]) ?></td>
+                    <td><?= htmlspecialchars($zwrot["relacja"]) ?></td>
                     <td><?= htmlspecialchars($zwrot["status"]) ?></td>
                     <td><?= htmlspecialchars($zwrot["data_zwrotu"]) ?></td>
-                    <td><?= htmlspecialchars($zwrot["id_pracownika"]) ?></td>
                     <td>
                         <form method="POST" action="szczegoly_zwrotu.php">
                             <input type="hidden" name="id_zwrotu" value="<?= $zwrot["id_zwrotu"] ?>">

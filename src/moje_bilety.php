@@ -42,6 +42,7 @@ $bilety = $pasazer->getBilety(); // tablica asocjacyjna z biletami
                 <th>Trasa</th>
                 <th>Wagon/Miejsce</th>
                 <th>Cena</th>
+                <th>Status</th>
                 <th>Szczegóły</th>
             </tr>
             <?php foreach ($bilety as $b): ?>
@@ -51,12 +52,17 @@ $bilety = $pasazer->getBilety(); // tablica asocjacyjna z biletami
                     <td><?= htmlspecialchars($b['stacja_start']) ?> → <?= htmlspecialchars($b['stacja_koniec']) ?></td>
                     <td><?= htmlspecialchars($b['wagon']) ?>/<?= htmlspecialchars($b['miejsce']) ?></td>
                     <td><?= number_format($b['cena'], 2) ?> zł</td>
+                    <td><?= htmlspecialchars($b['status_biletu']) ?></td>
                     <td>
+                    <?php if ($b['status_biletu'] === 'Zwrócony'): ?>
+                        
+                    <?php else: ?>
                         <form action="pokaz_bilet.php" method="post" style="margin:0;">
                             <input type="hidden" name="id_biletu" value="<?= htmlspecialchars($b['id_biletu']) ?>">
                             <button type="submit">Pokaż bilet</button>
                         </form>
-                    </td>
+                    <?php endif; ?>
+                </td>
                 </tr>
             <?php endforeach; ?>
         </table>
