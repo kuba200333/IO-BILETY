@@ -44,6 +44,9 @@ Przykładowe diagramy:
 ---
 
 ## 🖼️ Projekty graficzne
+![HomePage](https://github.com/user-attachments/assets/e5115caa-f09a-4849-acac-aad65e2269aa)
+![ticketVerificationPage](https://github.com/user-attachments/assets/3e64c714-6bc9-4f75-ae3b-3d1386eedf23)
+![SearchConnection](https://github.com/user-attachments/assets/1a37162d-10ee-4210-9560-acd4953dd9bb)
 
 ---
 
