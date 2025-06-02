@@ -25,14 +25,14 @@ $wyniki = [];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stacja_start = $_POST["stacja_start"];
     $stacja_koniec = $_POST["stacja_koniec"];
-    $data = $_POST["data"];
+    $data_podrozy  = $_POST["data"];
     $godzina = !empty($_POST["godzina"]) ? $_POST["godzina"] : $aktualna_godzina;
     $typy_pociagow = $_POST["typ_pociagu"] ?? [];
 
-    if (strtotime($data) < strtotime(date("Y-m-d"))) {
+    if (strtotime($data_podrozy) < strtotime(date("Y-m-d"))) {
         echo "<p style='color:red;'>Nie możesz wyszukiwać połączeń w przeszłości!</p>";
     } else {
-        $wyniki = $rozklad->znajdzPolaczenia($stacja_start, $stacja_koniec, $data, $godzina, $typy_pociagow);
+        $wyniki = $rozklad->znajdzPolaczenia($stacja_start, $stacja_koniec, $data_podrozy, $godzina, $typy_pociagow);
     }
 }
 ?>
@@ -101,6 +101,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <input type="hidden" name="numer_pociagu" value="<?= htmlspecialchars($pociag["numer_pociagu"]) ?>">
                             <input type="hidden" name="stacja_start" value="<?= htmlspecialchars($pociag["stacja_pocz"]) ?>">
                             <input type="hidden" name="stacja_koniec" value="<?= htmlspecialchars($pociag["stacja_konc"]) ?>">
+                            <input type="hidden" name="data_podrozy" value="<?= $data_podrozy  ?>">
                             <input type="submit" value="Kup bilet">
                         </form>
                     </td>

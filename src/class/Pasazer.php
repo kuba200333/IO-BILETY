@@ -89,4 +89,12 @@ class Pasazer {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+        public function getPasazerById($id_pasazera) {
+        $query = "SELECT * FROM " . $this->table_name . " WHERE id_pasazera = :id_pasazera LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id_pasazera", $id_pasazera, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
 }

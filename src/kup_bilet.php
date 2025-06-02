@@ -47,16 +47,18 @@ if ($numer_pociagu && $stacja_start && $stacja_koniec) {
 
     $odleglosc = $bilet->obliczOdleglosc($numer_pociagu, $stacja_start, $stacja_koniec);
 
-    $cena_klasa_1 = $bilet->obliczCene($odleglosc, 1, 0);
-    $cena_klasa_2 = $bilet->obliczCene($odleglosc, 2, 0);
-    $cena_sypialny = $cena_klasa_2 + 79; // Dopłata 79 zł
+    $data_podrozy = $_POST["data_podrozy"];
+
+    list($cena_klasa_1, $promo1) = $bilet->obliczCene($odleglosc, 1, 0, $data_podrozy);
+    list($cena_klasa_2, $promo2) = $bilet->obliczCene($odleglosc, 2, 0, $data_podrozy);
+    $cena_sypialny = $cena_klasa_2 + 79;
+
 
     $wagonyObj = new Wagony($db);
 
     if ($klasa_wybrana && $numer_pociagu) {
         $wagon_lista = $wagonyObj->pobierzWagonyDlaPociagu($numer_pociagu, $klasa_wybrana);
     }
-    $data_podrozy = $_POST["data_podrozy"] ?? date("Y-m-d");
     $zajete_miejsca = [];
 
     if ($klasa_wybrana && $numer_pociagu) {
@@ -264,6 +266,7 @@ if ($numer_pociagu && $stacja_start && $stacja_koniec) {
         <input type="hidden" name="numer_pociagu" value="<?= htmlspecialchars($numer_pociagu) ?>" />
         <input type="hidden" name="stacja_start" value="<?= htmlspecialchars($stacja_start) ?>" />
         <input type="hidden" name="stacja_koniec" value="<?= htmlspecialchars($stacja_koniec) ?>" />
+        <input type="hidden" name="data_podrozy" value="<?= htmlspecialchars($data_podrozy) ?>" />
     </form>
 
     <div class="kafelki">
@@ -337,6 +340,11 @@ if ($numer_pociagu && $stacja_start && $stacja_koniec) {
             </select><br><br>
 
             <h3>Cena końcowa:</h3>
+            <?php 
+                if($promo1>0){
+                    echo "Zastosowano: PROMO$promo1<br>";
+                }
+            ?>
             <p><span id="cena_koncowa"><?= number_format($cena_klasa_1, 2) ?> PLN</span></p>
 
             <input type="submit" value="Kup bilet" />
