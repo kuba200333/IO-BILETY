@@ -1,0 +1,197 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background-color: #f4f6f8;
+    color: #333;
+}
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* HEADER */
+header {
+    background-color: #0f62fe;
+    color: white;
+    padding: 1rem 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+header h1 {
+    font-size: 2rem;
+}
+
+/* MAIN SECTION */
+main {
+    padding: 2rem 0;
+}
+
+.hero {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.hero h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.auth-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+/* BUTTONS */
+.btn {
+    padding: 0.75rem 1.5rem;
+    background-color: #0f62fe;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #0043ce;
+}
+
+.logout {
+    background-color: #d12727;
+}
+
+.logout:hover {
+    background-color: #a02020;
+}
+
+/* FOOTER */
+footer {
+    background-color: #eee;
+    padding: 1rem 0;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #777;
+    margin-top: 2rem;
+}
+
+
+/* Formularze */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+select,
+textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #fff;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+select:focus,
+textarea:focus {
+    border-color: #0077cc;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 119, 204, 0.4);
+}
+
+/* Przycisk */
+input[type="submit"],
+button {
+    background-color: #0077cc;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+input[type="submit"]:hover,
+button:hover {
+    background-color: #005fa3;
+    transform: translateY(-2px);
+}
+
+input[type="submit"]:active,
+button:active {
+    background-color: #004f8a;
+    transform: translateY(0);
+}
+
+/* Formularz - odstępy */
+form {
+    background-color: #f9f9f9;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    max-width: 500px;
+    margin: auto;
+}
+
+label {
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+    display: block;
+}
+
+/* Styl ładnej tabeli */
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 1rem;
+    min-width: 600px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.styled-table thead tr {
+    background-color: #0f62fe;
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:hover {
+    background-color: #f1f5ff;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #0f62fe;
+}
+
+.styled-table button.btn {
+    padding: 0.3rem 0.75rem;
+    font-size: 0.9rem;
+}
+

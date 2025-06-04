@@ -286,6 +286,7 @@ if ($numer_pociagu && $stacja_start && $stacja_koniec) {
             <input type="hidden" id="cena" name="cena" value="<?= $cena_klasa_1 ?>" />
             <input type="hidden" id="wagon" name="wagon" value="" />
             <input type="hidden" id="miejsce" name="miejsce" value="" />
+            <input type="hidden" name="data_podrozy" value="<?= htmlspecialchars($data_podrozy) ?>" />
 
             <h3>Wybierz wagon i miejsce:</h3>
             <div class="kontener-wagonow">

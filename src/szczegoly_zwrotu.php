@@ -44,33 +44,50 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["id_zwrotu"])) {
 <head>
     <meta charset="UTF-8">
     <title>Szczegóły zwrotu</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        h2 { margin-bottom: 10px; }
-        table { border-collapse: collapse; width: 100%; }
-        td, th { border: 1px solid #ccc; padding: 8px; text-align: left; }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <a href="moje_zwroty.php">Moje zwroty</a>
-    <h2>Dane pasażera</h2>
-    <table>
-        <tr><th>Imię i nazwisko</th><td><?= htmlspecialchars($zwrot['imie'] . ' ' . $zwrot['nazwisko']) ?></td></tr>
-        <tr><th>Email</th><td><?= htmlspecialchars($zwrot['email']) ?></td></tr>
-        <tr><th>Telefon</th><td><?= htmlspecialchars($zwrot['telefon']) ?></td></tr>
-        <tr><th>Adres</th><td><?= htmlspecialchars($zwrot['adres'] . ', ' . $zwrot['kod_pocztowy'] . ' ' . $zwrot['miejscowosc']) ?></td></tr>
-    </table>
+    <header>
+        <div class="container">
+            <h1>Szczegóły zwrotu</h1>
+        </div>
+    </header>
 
-    <h2>Szczegóły zwrotu</h2>
-    <table>
-        <tr><th>ID Zwrotu</th><td><?= htmlspecialchars($zwrot['id_zwrotu']) ?></td></tr>
-        <tr><th>Status</th><td><?= htmlspecialchars($zwrot['status']) ?></td></tr>
-        <tr><th>Data zwrotu</th><td><?= htmlspecialchars($zwrot['data_zwrotu']) ?></td></tr>
-        <tr><th>Numer konta</th><td><?= htmlspecialchars($zwrot['nr_konta']) ?></td></tr>
-        <tr><th>Uwagi pasażera</th><td><?= htmlspecialchars($zwrot['uwagi_pasazer']) ?></td></tr>
-        <tr><th>Uwagi pracownika</th><td><?= htmlspecialchars($zwrot['uwagi_pracownik']) ?></td></tr>
-        <tr><th>ID Biletu</th><td><?= htmlspecialchars($zwrot['id_biletu']) ?></td></tr>
-    </table>
+    <main class="container">
+        <a href="moje_zwroty.php" class="btn" style="margin-bottom: 1rem; display: inline-block;">« Powrót do moich zwrotów</a>
 
+        <section class="hero">
+            <h2>Dane pasażera</h2>
+            <table class="styled-table">
+                <tbody>
+                    <tr><th>Imię i nazwisko</th><td><?= htmlspecialchars($zwrot['imie'] . ' ' . $zwrot['nazwisko']) ?></td></tr>
+                    <tr><th>Email</th><td><?= htmlspecialchars($zwrot['email']) ?></td></tr>
+                    <tr><th>Telefon</th><td><?= htmlspecialchars($zwrot['telefon']) ?></td></tr>
+                    <tr><th>Adres</th><td><?= htmlspecialchars($zwrot['adres'] . ', ' . $zwrot['kod_pocztowy'] . ' ' . $zwrot['miejscowosc']) ?></td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="hero" style="margin-top: 2rem;">
+            <h2>Szczegóły zwrotu</h2>
+            <table class="styled-table">
+                <tbody>
+                    <tr><th>ID Zwrotu</th><td><?= htmlspecialchars($zwrot['id_zwrotu']) ?></td></tr>
+                    <tr><th>Status</th><td><?= htmlspecialchars($zwrot['status']) ?></td></tr>
+                    <tr><th>Data zwrotu</th><td><?= htmlspecialchars($zwrot['data_zwrotu']) ?></td></tr>
+                    <tr><th>Numer konta</th><td><?= htmlspecialchars($zwrot['nr_konta']) ?></td></tr>
+                    <tr><th>Uwagi pasażera</th><td><?= nl2br(htmlspecialchars($zwrot['uwagi_pasazer'])) ?></td></tr>
+                    <tr><th>Uwagi pracownika</th><td><?= nl2br(htmlspecialchars($zwrot['uwagi_pracownik'])) ?></td></tr>
+                    <tr><th>ID Biletu</th><td><?= htmlspecialchars($zwrot['id_biletu']) ?></td></tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            &copy; <?= date("Y") ?> PolRail - System Zwrotów Biletów
+        </div>
+    </footer>
 </body>
 </html>
