@@ -41,11 +41,8 @@ if (!$bilet) {
 }
 
 $biletObj = new Bilet($db);
-
-// Oblicz liczbę kilometrów przez metodę Bilet (używając numeru pociągu i nazw stacji)
 $liczba_km = $biletObj->obliczOdleglosc($bilet["numer_pociagu"], $bilet["stacja_start"], $bilet["stacja_koniec"]);
 
-// Formatowanie dat
 $data_podrozy = date("d.m.Y", strtotime($bilet["data_podrozy"]));
 $data_transakcji = date("d.m.Y H:i", strtotime($bilet["data_transakcji"]));
 
@@ -53,53 +50,80 @@ $rozkladJazdy = new RozkladJazdy($db);
 $godzina_odjazdu = $rozkladJazdy->getGodzinaOdjazdu($id_biletu);
 
 ?>
-
 <!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Szczegóły Biletu</title>
-    <style>
-        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-        th, td { border: 1px solid black; padding: 10px; text-align: left; }
-        th { background-color: #f2f2f2; }
-    </style>
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <a href="moje_bilety.php">Powrót do listy biletów</a>
-    <h2>Bilet</h2>
-    <table>
-        <tr><th>PODRÓŻ TAM KURS</th></tr>
-        <tr>
-            <td><?= $data_podrozy ?> <?= htmlspecialchars($godzina_odjazdu ?? "Brak danych") ?> <?= htmlspecialchars($bilet["stacja_start"]) ?> → <?= htmlspecialchars($bilet["stacja_koniec"]) ?> <?= htmlspecialchars($bilet["numer_pociagu"]) ?></td>
-        </tr>
-    </table>
 
-    <h2>Informacja o cenie</h2>
-    <table>
-        <tr><th>Opłata za przejazd</th><td><?= htmlspecialchars($bilet["cena"]) ?> PLN</td></tr>
-        <tr><th>RAZEM</th><td><?= htmlspecialchars($bilet["cena"]) ?> PLN</td></tr>
-    </table>
+<header>
+    <h1>Szczegóły Biletu</h1>
+</header>
 
-    <h2>BILET</h2>
-    <table>
-        <tr><th>Właściciel biletu</th><td><?= htmlspecialchars($bilet["imie"] . " " . $bilet["nazwisko"]) ?></td></tr>
-        <tr>
-            <th>Numer biletu</th>
-            <td>BK<?= htmlspecialchars($bilet["id_biletu"]) ?>
-                <h2>Kod QR</h2>
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=<?= urlencode($bilet["kod_qr"]) ?>" alt="Kod QR">
-            </td>
-        </tr>
-        <tr><th>Numer wagonu</th><td><?= htmlspecialchars($bilet["id_wagonu"]) ?></td></tr>
-        <tr><th>Miejsce</th><td><?= htmlspecialchars($bilet["miejsce"]) ?></td></tr>
-        <tr><th>Klasa</th><td><?= htmlspecialchars($bilet["klasa"]) ?></td></tr>
-        <tr><th>Zniżka</th><td><?= htmlspecialchars($bilet["nazwa_znizki"]) ?> (<?= htmlspecialchars($bilet["wymiar_znizki"]) ?>%)</td></tr>
-        <tr><th>Liczba km</th><td><?= htmlspecialchars($liczba_km) ?> km</td></tr>
-        <tr><th>Sprzedawca</th><td>InterTicket</td></tr>
-        <tr><th>Data zakupu</th><td><?= $data_transakcji ?></td></tr>
-    </table>
+<main class="container">
+
+    <nav>
+        <a class="btn" href="moje_bilety.php">Powrót do listy biletów</a>
+    </nav>
+
+    <!-- Sekcja podróży -->
+    <section class="hero">
+        <h2>Podróż tam - kurs</h2>
+        <table class="styled-table">
+            <tbody>
+                <tr>
+                    <td><?= $data_podrozy ?> <?= htmlspecialchars($godzina_odjazdu ?? "Brak danych") ?> <br><?= htmlspecialchars($bilet["stacja_start"]) ?> → <?= htmlspecialchars($bilet["stacja_koniec"]) ?> <?= htmlspecialchars($bilet["numer_pociagu"]) ?></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Sekcja ceny -->
+    <section>
+        <h2>Informacja o cenie</h2>
+        <table class="styled-table">
+            <tbody>
+                <tr><th>Opłata za przejazd</th><td><?= htmlspecialchars($bilet["cena"]) ?> PLN</td></tr>
+                <tr><th>RAZEM</th><td><?= htmlspecialchars($bilet["cena"]) ?> PLN</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Sekcja biletu -->
+    <section>
+        <h2>Bilet</h2>
+        <table class="styled-table">
+            <tbody>
+                <tr><th>Właściciel biletu</th><td><?= htmlspecialchars($bilet["imie"] . " " . $bilet["nazwisko"]) ?></td></tr>
+                <tr>
+                    <th>Numer biletu</th>
+                    <td>
+                        BK<?= htmlspecialchars($bilet["id_biletu"]) ?>
+                        <div>
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=<?= urlencode($bilet["kod_qr"]) ?>" alt="Kod QR">
+                        </div>
+                    </td>
+                </tr>
+                <tr><th>Numer wagonu</th><td><?= htmlspecialchars($bilet["id_wagonu"]) ?></td></tr>
+                <tr><th>Miejsce</th><td><?= htmlspecialchars($bilet["miejsce"]) ?></td></tr>
+                <tr><th>Klasa</th><td><?= htmlspecialchars($bilet["klasa"]) ?></td></tr>
+                <tr><th>Zniżka</th><td><?= htmlspecialchars($bilet["nazwa_znizki"]) ?> (<?= htmlspecialchars($bilet["wymiar_znizki"]) ?>%)</td></tr>
+                <tr><th>Liczba km</th><td><?= htmlspecialchars($liczba_km) ?> km</td></tr>
+                <tr><th>Sprzedawca</th><td>InterTicket</td></tr>
+                <tr><th>Data zakupu</th><td><?= $data_transakcji ?></td></tr>
+            </tbody>
+        </table>
+    </section>
+
+</main>
+
+<footer>
+    &copy; <?= date("Y") ?> InterTicket
+</footer>
 
 </body>
 </html>

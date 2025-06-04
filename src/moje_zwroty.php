@@ -14,61 +14,70 @@ $database = new Database();
 $db = $database->getConnection();
 
 $pasazer = new Pasazer($db);
-$pasazer->loadByLogin($_SESSION["user"]); // metoda ładuje dane pasażera z bazy
+$pasazer->loadByLogin($_SESSION["user"]);
 
 $zwroty = new Zwroty($db);
 $listaZwrotow = $zwroty->getZwrotyByPasazerId($pasazer->id);
 ?>
-
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Moje Zwroty</title>
-    <style>
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
-        th { background-color: #f2f2f2; }
-        form { display: inline; }
-    </style>
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <a href="index.php">Strona główna</a>
-    <h2>Moje Zwroty</h2>
+    <header>
+        <nav class="container">
+            <a href="index.php" class="btn">Strona główna</a>
+        </nav>
+        <h1 class="container" style="margin-top: 1rem;">Moje Zwroty</h1>
+    </header>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Numer Zwrotu</th>
-                <th>Numer Biletu</th>
-                <th>Relacja</th>
-                <th>Status</th>
-                <th>Data Zwrotu</th>
-                <th>Szczegóły</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($listaZwrotow as $zwrot): ?>
-                <tr>
-                    <td><?= htmlspecialchars($zwrot["id_zwrotu"]) ?></td>
-                    <td><?= htmlspecialchars($zwrot["id_biletu"]) ?></td>
-                    <td><?= htmlspecialchars($zwrot["relacja"]) ?></td>
-                    <td><?= htmlspecialchars($zwrot["status"]) ?></td>
-                    <td><?= htmlspecialchars($zwrot["data_zwrotu"]) ?></td>
-                    <td>
-                        <form method="POST" action="szczegoly_zwrotu.php">
-                            <input type="hidden" name="id_zwrotu" value="<?= $zwrot["id_zwrotu"] ?>">
-                            <button type="submit">Szczegóły</button>
-                        </form>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+    <main class="container">
+        <section class="zwroty-lista">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>Numer Zwrotu</th>
+                        <th>Numer Biletu</th>
+                        <th>Relacja</th>
+                        <th>Status</th>
+                        <th>Data Zwrotu</th>
+                        <th>Szczegóły</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($listaZwrotow as $zwrot): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($zwrot["id_zwrotu"]) ?></td>
+                            <td><?= htmlspecialchars($zwrot["id_biletu"]) ?></td>
+                            <td><?= htmlspecialchars($zwrot["relacja"]) ?></td>
+                            <td><?= htmlspecialchars($zwrot["status"]) ?></td>
+                            <td><?= htmlspecialchars($zwrot["data_zwrotu"]) ?></td>
+                            <td>
+                                <form method="POST" action="szczegoly_zwrotu.php" style="margin: 0;">
+                                    <input type="hidden" name="id_zwrotu" value="<?= $zwrot["id_zwrotu"] ?>" />
+                                    <button type="submit" class="btn" style="padding: 0.3rem 0.75rem; font-size: 0.9rem;">Szczegóły</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </section>
 
-    <br>
-    <form action="formularz_zwrotu.php" method="GET">
-        <button type="submit">Nowy zwrot</button>
-    </form>
+        <section class="nowy-zwrot" style="margin-top: 20px; text-align: center;">
+            <form action="formularz_zwrotu.php" method="GET">
+                <button type="submit" class="btn" style="font-weight: bold; font-size: 1rem;">Nowy zwrot</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            &copy; <?= date('Y') ?> PolRail
+        </div>
+    </footer>
 </body>
 </html>

@@ -48,54 +48,58 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Zwrot biletu</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 30px; }
-        label, input, select { display: block; margin: 10px 0; width: 100%; max-width: 400px; }
-        .error { color: red; }
-    </style>
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <h2>Formularz zwrotu biletu</h2>
+    <header>
+        <h1>Zwrot biletu</h1>
+    </header>
+    <main class="container">
+        <h2>Formularz zwrotu biletu</h2>
 
-    <?= $komunikat ?>
+        <?= $komunikat ?>
 
-    <form method="POST">
-        <label for="id_biletu">Wybierz bilet:</label>
-        <select name="id_biletu" id="id_biletu" required>
-            <?php foreach ($bilety as $bilet): ?>
-                <?php if ($bilet["status_biletu"] !== "Zwrócony"): ?>
-                    <option value="<?= $bilet["id_biletu"] ?>">
-                        <?= "Bilet #{$bilet["id_biletu"]}: {$bilet["stacja_start"]} ➔ {$bilet["stacja_koniec"]} ({$bilet["data_podrozy"]})" ?>
-                    </option>
-                <?php endif; ?>
-            <?php endforeach; ?>
-        </select>
+        <form method="POST" novalidate>
+            <label for="id_biletu">Wybierz bilet:</label>
+            <select name="id_biletu" id="id_biletu" required>
+                <?php foreach ($bilety as $bilet): ?>
+                    <?php if ($bilet["status_biletu"] !== "Zwrócony"): ?>
+                        <option value="<?= htmlspecialchars($bilet["id_biletu"]) ?>">
+                            <?= htmlspecialchars("Bilet #{$bilet["id_biletu"]}: {$bilet["stacja_start"]} ➔ {$bilet["stacja_koniec"]} ({$bilet["data_podrozy"]})") ?>
+                        </option>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </select>
 
-        <label for="typ">Wybierz typ zwrotu:</label>
-        <select name="typ">
-            <option>Zwrot należności za niewykorzystany bilet</option>
-            <option>Wezwanie do zapłaty</option>
-            <option>Bilet z opłatą dodatkową wystawiony w pociągu</option>
-            <option>Odszkodowanie z tytułu opóźnienia pociągu</option>
-            <option>Dodatkowe koszty podróży</option>
-            <option>Skargi</option>
-            <option>Wnioski</option>
-        </select>
+            <label for="typ">Wybierz typ zwrotu:</label>
+            <select name="typ" id="typ" required>
+                <option>Zwrot należności za niewykorzystany bilet</option>
+                <option>Wezwanie do zapłaty</option>
+                <option>Bilet z opłatą dodatkową wystawiony w pociągu</option>
+                <option>Odszkodowanie z tytułu opóźnienia pociągu</option>
+                <option>Dodatkowe koszty podróży</option>
+                <option>Skargi</option>
+                <option>Wnioski</option>
+            </select>
 
-        <label for="nr_konta">Numer konta bankowego (26 cyfr):</label>
-        <input type="text" name="nr_konta" id="nr_konta" pattern="\d{26}" required placeholder="np. 12345678901234567890123456">
-        
-        <label for="uwagi_pasazer">Treść zgłoszenia</label>
-        <input type="text" name="uwagi_pasazer" id="uwagi_pasazer" required>
+            <label for="nr_konta">Numer konta bankowego (26 cyfr):</label>
+            <input type="text" name="nr_konta" id="nr_konta" pattern="\d{26}" required placeholder="np. 12345678901234567890123456" maxlength="26" />
 
-        <label>
-            <input type="checkbox" name="zgoda" required>
-            Jestem świadomy, że zostanie potrącone 15% wartości biletu
-        </label>
+            <label for="uwagi_pasazer">Treść zgłoszenia:</label>
+            <input type="text" name="uwagi_pasazer" id="uwagi_pasazer" required />
 
-        <button type="submit">Wyślij wniosek</button>
-    </form>
+            <label>
+                <input type="checkbox" name="zgoda" required />
+                Jestem świadomy, że zostanie potrącone 15% wartości biletu
+            </label>
+
+            <button type="submit">Wyślij wniosek</button>
+        </form>
+    </main>
+    <footer>
+        &copy; <?= date("Y") ?> PolRail
+    </footer>
 </body>
 </html>
