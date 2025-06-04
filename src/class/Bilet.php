@@ -28,26 +28,44 @@ class Bilet {
         return $row ? $row["laczna_odleglosc"] : 0;
     }
 
-    public function obliczCene($odleglosc, $klasa, $znizka) {
-        $query = "SELECT cena FROM ceny_odleglosci WHERE :odleglosc BETWEEN odleglosc_min AND odleglosc_max AND klasa = :klasa";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":odleglosc", $odleglosc, PDO::PARAM_INT);
-        $stmt->bindParam(":klasa", $klasa, PDO::PARAM_STR);
-        $stmt->execute();
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        
-        if (!$row) return 0;
+    public function obliczCene($odleglosc, $klasa, $znizka, $data_podrozy) {
+    $query = "SELECT cena FROM ceny_odleglosci WHERE :odleglosc BETWEEN odleglosc_min AND odleglosc_max AND klasa = :klasa";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(":odleglosc", $odleglosc, PDO::PARAM_INT);
+    $stmt->bindParam(":klasa", $klasa, PDO::PARAM_STR);
+    $stmt->execute();
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
     
-        $cena_podstawowa = $row["cena"];
-    
-        // Dopłata do klasy sypialnej (79 zł, bez zniżek)
-        if ($klasa === "sypialny") {
-            return $cena_podstawowa + 79.00;
-        }
-    
-        return round($cena_podstawowa * (1 - ($znizka / 100)), 2);
+    if (!$row) return [0, 0];
+
+    $cena_podstawowa = $row["cena"];
+
+    if ($klasa === "sypialny") {
+        return [$cena_podstawowa + 79.00, 0]; // bez promocji
     }
-    
+
+    $dzisiaj = new DateTime();
+    $data_podrozy_dt = new DateTime($data_podrozy);
+    $roznica = $dzisiaj->diff($data_podrozy_dt)->days;
+    $czy_przyszlosc = $data_podrozy_dt > $dzisiaj;
+
+    $promo = 0;
+    if ($czy_przyszlosc) {
+        if ($roznica >= 21) {
+            $promo = 30;
+        } elseif ($roznica >= 14) {
+            $promo = 20;
+        } elseif ($roznica >= 7) {
+            $promo = 10;
+        }
+    }
+
+    $laczna_znizka = $znizka + $promo;
+    if ($laczna_znizka > 90) $laczna_znizka = 90;
+
+    $cena_koncowa = round($cena_podstawowa * (1 - ($laczna_znizka / 100)), 2);
+    return [$cena_koncowa, $promo];
+}
 
     public function zapiszBilet($id_pasazera, $numer_pociagu, $stacja_start, $stacja_koniec, $klasa, $znizka, $wagon, $miejsce) {
         $odleglosc = $this->obliczOdleglosc($numer_pociagu, $stacja_start, $stacja_koniec);

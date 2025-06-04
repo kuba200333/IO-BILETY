@@ -1,22 +1,32 @@
 <?php
-require_once "config.php";
+class RozkladJazdy {
+    private $db;
 
-class Wyszukiwarka {
-    private $conn;
+    public function __construct(PDO $db) {
+        $this->db = $db;
+    }
 
-    public function __construct($db) {
-        $this->conn = $db;
+    public function getGodzinaOdjazdu(int $id_biletu): string {
+        $query = "SELECT godzina_odjazdu FROM rozklad_jazdy 
+                  WHERE id_pociagu = (SELECT id_pociagu FROM bilety WHERE id_biletu = :id_biletu)
+                    AND id_stacji = (SELECT id_stacji_start FROM bilety WHERE id_biletu = :id_biletu)";
+        
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(":id_biletu", $id_biletu, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $result ? $result['godzina_odjazdu'] : "Brak danych";
     }
 
     public function znajdzPolaczenia($stacja_start, $stacja_koniec, $data, $godzina, $typy_pociagow) {
-        // Jeśli użytkownik nie zaznaczył żadnego typu pociągu, zwracamy pustą tablicę
         if (empty($typy_pociagow)) {
             return [];
         }
-    
-        // Tworzymy placeholdery dla typów pociągów (np. ?, ?, ?)
+
         $placeholders = implode(',', array_fill(0, count($typy_pociagow), '?'));
-    
+
         $query = "SELECT 
                     p.numer_pociagu, 
                     p.typ, 
@@ -32,27 +42,23 @@ class Wyszukiwarka {
                   WHERE r1.id_stacji = ? 
                     AND r2.id_stacji = ? 
                     AND r1.godzina_odjazdu >= ? 
-                    AND ? BETWEEN p.od AND p.do  -- Sprawdzanie, czy data jest w zakresie
-                    AND p.typ IN ($placeholders)  
+                    AND ? BETWEEN p.od AND p.do
+                    AND p.typ IN ($placeholders)
                   ORDER BY r1.godzina_odjazdu ASC";
-    
-        $stmt = $this->conn->prepare($query);
-    
-        // Bindowanie podstawowych parametrów
+
+        $stmt = $this->db->prepare($query);
+
         $stmt->bindValue(1, $stacja_start, PDO::PARAM_INT);
         $stmt->bindValue(2, $stacja_koniec, PDO::PARAM_INT);
         $stmt->bindValue(3, $godzina, PDO::PARAM_STR);
         $stmt->bindValue(4, $data, PDO::PARAM_STR);
-    
-        // Bindowanie dynamicznych typów pociągów
+
         foreach ($typy_pociagow as $index => $typ) {
             $stmt->bindValue($index + 5, $typ, PDO::PARAM_STR);
         }
-    
+
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    
-    
 }
 ?>

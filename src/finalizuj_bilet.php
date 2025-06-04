@@ -1,12 +1,19 @@
 <?php
 require_once "config.php";
-require_once "Bilet.php";
+require_once "class/Bilet.php";
 
 session_start();
 
-if (!isset($_SESSION["user"])) {
-    die("Musisz być zalogowany, aby kupić bilet.");
+if (!isset($_SESSION["user"]) || $_SESSION["role"] !== "pasazer") {
+    header("Location: index.php");
+    exit;
 }
+
+if (!isset($_SERVER["HTTP_REFERER"]) || strpos($_SERVER["HTTP_REFERER"], "kup_bilet.php") === false) {
+    header("Location: index.php");
+    exit;
+}
+
 
 $database = new Database();
 $db = $database->getConnection();
@@ -28,15 +35,16 @@ $id_pasazera = $row_pasazer["id_pasazera"];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $numer_pociagu = $_POST["numer_pociagu"];
-    $id_stacji_start = $_POST["id_stacja_start"];
-    $id_stacji_koniec = $_POST["id_stacja_koniec"];
+    $id_stacji_start = $_POST["stacja_start"];
+    $id_stacji_koniec = $_POST["stacja_koniec"];
     $klasa = $_POST["klasa"];
-    $id_znizki = $_POST["id_znizki"];
+    $id_znizki = $_POST["znizka"];
     $wagon = $_POST["wagon"];
     $miejsce = $_POST["miejsce"];
     $metoda_platnosci = $_POST["metoda_platnosci"];
     $cena = $_POST["cena"];
     $data_podrozy = date("Y-m-d");
+    
 
     // Pobranie ID pociągu na podstawie numeru
     $query_pociag = "SELECT id_pociagu FROM pociagi WHERE numer_pociagu = :numer_pociagu";
@@ -84,6 +92,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ":metoda_platnosci" => $metoda_platnosci
     ]);
 
-    echo "<p>Zakup zakończony! Twój bilet został zapisany.</p>";
+    //echo "<p>Zakup zakończony! Twój bilet został zapisany.</p>";
+    echo '
+    <form id="redirectForm" action="pokaz_bilet.php" method="post">
+        <input type="hidden" name="id_biletu" value="' . htmlspecialchars($id_biletu) . '">
+    </form>
+    <script>
+        document.getElementById("redirectForm").submit();
+    </script>';
+    exit;
+
 }
 ?>
