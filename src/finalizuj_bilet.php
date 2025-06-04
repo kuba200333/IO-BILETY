@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $miejsce = $_POST["miejsce"];
     $metoda_platnosci = $_POST["metoda_platnosci"];
     $cena = $_POST["cena"];
-    $data_podrozy = date("Y-m-d");
+    $data_podrozy = $_POST["data_podrozy"];
     
 
     // Pobranie ID pociągu na podstawie numeru
