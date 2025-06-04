@@ -65,7 +65,7 @@ if ($numer_pociagu && $stacja_start && $stacja_koniec) {
         $wagon_lista = $wagonyObj->pobierzWagonyDlaPociagu($numer_pociagu, $klasa_wybrana);
         $zajete_miejsca = $wagonyObj->pobierzZajeteMiejscaNaOdcinku($numer_pociagu, $data_podrozy, $id_stacji_start, $id_stacji_koniec);
     }
-    #echo '<pre>' . print_r($zajete_miejsca, true) . '</pre>';
+    echo '<pre>' . print_r($zajete_miejsca, true) . '</pre>';
     echo '<script>';
     echo 'const zajeteMiejsca = ' . json_encode($zajete_miejsca) . ';';
     echo '</script>';

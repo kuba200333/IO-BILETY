@@ -38,6 +38,7 @@ $zwroty = $zwrotyObj->getZwrotyByPracownikId($id_pracownika);
     </style>
 </head>
 <body>
+    <a href="index.php">Powrót do strony głównej</a>
     <h2>Zwroty przypisane do Ciebie</h2>
 
     <?php if (count($zwroty) === 0): ?>

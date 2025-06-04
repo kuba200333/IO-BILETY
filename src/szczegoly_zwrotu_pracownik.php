@@ -53,6 +53,7 @@ $pasazer = $pasazerObj->getPasazerById($zwrot["id_pasazera"]);
     <title>Szczegóły Zwrotu</title>
 </head>
 <body>
+    <a href="zwroty_pracownik.php">Powrót do listy zwrotów</a>
     <h2>Szczegóły Zwrotu #<?= htmlspecialchars($zwrot["id_zwrotu"]) ?></h2>
 
     <table border="1" cellpadding="6">
