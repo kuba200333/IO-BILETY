@@ -82,7 +82,10 @@ if (!isset($_SESSION["user"]) || $_SESSION["role"] !== "Kierownik") {
 
         <div class="grid">
             <div class="card">
-                <a href="#">📄 Regulamin (wkrótce)</a>
+                <a href="przydziel_zwrot.php">Przydziel zwrot</a>
+            </div>
+            <div class="card">
+                <a href="https://www.sejm.gov.pl/prawo/konst/polski/kon1.htm">📄 Regulamin</a>
             </div>
         </div>
 

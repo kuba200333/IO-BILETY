@@ -57,6 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <h1>Zwrot biletu</h1>
     </header>
     <main class="container">
+        <a href="moje_zwroty.php" class="btn" style="margin-bottom: 1rem; display: inline-block;">Powrót do moich zwrotów</a>
         <h2>Formularz zwrotu biletu</h2>
 
         <?= $komunikat ?>

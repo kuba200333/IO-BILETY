@@ -102,5 +102,29 @@ class Bilet {
             ":metoda_platnosci" => $metoda_platnosci
         ]);
     }
+    public function pobierzSzczegoly($kod) {
+    $query = "SELECT bilety.id_biletu, bilety.kod_qr, pociagi.numer_pociagu,
+                     st1.nazwa AS stacja_start, st2.nazwa AS stacja_koniec,
+                     bilety.miejsce, bilety.cena, bilety.data_podrozy, bilety.id_wagonu, bilety.id_znizki,
+                     wagony.klasa,
+                     pasazerowie.imie, pasazerowie.nazwisko, transakcje.data_transakcji,
+                     znizki.nazwa_znizki, znizki.wymiar_znizki
+              FROM bilety
+              JOIN pociagi ON bilety.id_pociagu = pociagi.id_pociagu
+              JOIN stacje st1 ON bilety.id_stacji_start = st1.id_stacji
+              JOIN stacje st2 ON bilety.id_stacji_koniec = st2.id_stacji
+              JOIN pasazerowie ON bilety.id_pasazera = pasazerowie.id_pasazera
+              JOIN transakcje ON bilety.id_biletu = transakcje.id_biletu
+              JOIN znizki ON bilety.id_znizki = znizki.id_znizki
+              JOIN wagony ON bilety.id_wagonu = wagony.id_wagonu
+              WHERE bilety.kod_qr = :kod OR bilety.id_biletu = :kod_int";
+
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindValue(":kod", $kod, PDO::PARAM_STR);
+    $stmt->bindValue(":kod_int", (int)$kod, PDO::PARAM_INT);
+    $stmt->execute();
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
 }
 ?>

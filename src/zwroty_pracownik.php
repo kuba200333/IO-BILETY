@@ -44,7 +44,7 @@ $zwroty = $zwrotyObj->getZwrotyByPracownikId($id_pracownika);
         </header>
 
         <main>
-            <a href="index.php" class="btn logout">Powrót do strony głównej</a>
+            <a href="index.php" class="btn">Powrót do strony głównej</a>
             <div class="hero">
                 <h2>Zwroty przypisane do Ciebie</h2>
 

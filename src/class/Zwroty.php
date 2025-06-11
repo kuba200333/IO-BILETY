@@ -87,5 +87,26 @@ class Zwroty {
         return $stmt->execute();
     }
 
+    public function getZwrotyBezPracownika() {
+        $query = "SELECT z.id_zwrotu, z.id_biletu, z.id_pasazera, z.status, z.data_zwrotu,
+                         CONCAT(st1.nazwa, ' - ', st2.nazwa) AS relacja
+                  FROM zwroty z
+                  JOIN bilety b ON z.id_biletu = b.id_biletu
+                  JOIN stacje st1 ON b.id_stacji_start = st1.id_stacji
+                  JOIN stacje st2 ON b.id_stacji_koniec = st2.id_stacji
+                  WHERE z.id_pracownika IS NULL OR z.id_pracownika = 0 ";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function przypiszPracownikaDoZwrotu($id_zwrotu, $id_pracownika) {
+        $query = "UPDATE zwroty SET id_pracownika = :id_pracownika WHERE id_zwrotu = :id_zwrotu";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id_pracownika', $id_pracownika, PDO::PARAM_INT);
+        $stmt->bindParam(':id_zwrotu', $id_zwrotu, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+
 }
 ?>

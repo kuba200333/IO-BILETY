@@ -33,5 +33,12 @@ class Pracownik {
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row ? $row["id_pracownika"] : null;
     }
+
+    public function getAllPracownicy() {
+        $query = "SELECT id_pracownika, imie, nazwisko FROM pracownicy where stanowisko ='Pracownik' ORDER BY nazwisko, imie";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>

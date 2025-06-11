@@ -28,13 +28,11 @@ $listaZwrotow = $zwroty->getZwrotyByPasazerId($pasazer->id);
 </head>
 <body>
     <header>
-        <nav class="container">
-            <a href="index.php" class="btn">Strona główna</a>
-        </nav>
         <h1 class="container" style="margin-top: 1rem;">Moje Zwroty</h1>
     </header>
 
     <main class="container">
+        <a href="index.php" class="btn" style="margin-bottom: 1rem; display: inline-block;">Powrót do strony głównej</a>
         <section class="zwroty-lista">
             <table class="styled-table">
                 <thead>
