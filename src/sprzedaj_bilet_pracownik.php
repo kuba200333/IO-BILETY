@@ -252,9 +252,20 @@ if ($numer_pociagu && $stacja_start && $stacja_koniec) {
                 cenaPoZnizce = 7.50;
             }
 
+            // Dolicz opłatę dodatkową
+            let oplataSelect = document.getElementById("oplata_dodatkowa");
+            let oplataValue = oplataSelect ? oplataSelect.value : "0";
+
+            if (oplataValue === "1") {
+                cenaPoZnizce += 20;
+            } else if (["2", "3", "4"].includes(oplataValue)) {
+                cenaPoZnizce += 150;
+            }
+
             document.getElementById("cena_koncowa").innerText = cenaPoZnizce.toFixed(2) + " PLN";
             document.getElementById("cena").value = cenaPoZnizce.toFixed(2);
         }
+
     </script>
 </head>
 <body>
@@ -332,6 +343,15 @@ if ($numer_pociagu && $stacja_start && $stacja_koniec) {
                 <br>
                 <br>
 
+            <h3>Oplata dodatkowa:</h3>
+            <select name="oplata_dodatkowa" id="oplata_dodatkowa" onchange="aktualizujCene()">
+                <option value="0" checked>Brak</option>
+                <option value="1">Opłata konduktorska</option>
+                <option value="2">Brak odpowiedniego dokumentu przewozu</option>
+                <option value="3">Przejazd bez ważnego dokumentu poświadczającego uprawnienie do bezpłatnego albo ulgowego przejazdu</option>
+                <option value="4">Brak ważnego dokumentu na przewóz rzeczy lub zwierząt albo za naruszenie przepisów o ich przewozie</option>
+            </select><br><br>
+            
                 <h3>Wybór płatności:</h3>
             <select name="metoda_platnosci">
                 <option value="karta">Karta płatnicza</option>
@@ -348,7 +368,7 @@ if ($numer_pociagu && $stacja_start && $stacja_koniec) {
             ?>
             <p><span id="cena_koncowa"><?= number_format($cena_klasa_1, 2) ?> PLN</span></p>
 
-            <input type="submit" value="Kup bilet" />
+            <input type="submit" value="Sprzedaj bilet" />
         </form>
         </div>
     </div>

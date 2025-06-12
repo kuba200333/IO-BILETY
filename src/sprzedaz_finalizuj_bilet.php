@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $metoda_platnosci = $_POST["metoda_platnosci"];
     $cena = $_POST["cena"];
     $data_podrozy = $_POST["data_podrozy"];
-    
+    $oplata_dodatkowa= $_POST["oplata_dodatkowa"];
 
     // Pobranie ID pociągu na podstawie numeru
     $query_pociag = "SELECT id_pociagu FROM pociagi WHERE numer_pociagu = :numer_pociagu";
@@ -50,8 +50,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $kod_qr = md5(uniqid(rand(), true));
 
     // Wstawienie biletu do bazy danych
-    $query_bilet = "INSERT INTO bilety (id_pociagu, id_stacji_start, id_stacji_koniec, miejsce, cena, data_podrozy, kod_qr, id_wagonu, id_znizki) 
-                    VALUES (:id_pociagu, :id_stacji_start, :id_stacji_koniec, :miejsce, :cena, :data_podrozy, :kod_qr, :id_wagonu, :id_znizki)";
+    $query_bilet = "INSERT INTO bilety (id_pociagu, id_stacji_start, id_stacji_koniec, miejsce, cena, data_podrozy, kod_qr, id_wagonu, id_znizki, oplata_dodatkowa) 
+                    VALUES (:id_pociagu, :id_stacji_start, :id_stacji_koniec, :miejsce, :cena, :data_podrozy, :kod_qr, :id_wagonu, :id_znizki, :oplata_dodatkowa)";
     $stmt = $db->prepare($query_bilet);
     $stmt->execute([
         ":id_pociagu" => $id_pociagu,
@@ -62,6 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ":data_podrozy" => $data_podrozy,
         ":kod_qr" => $kod_qr,
         ":id_wagonu" => $wagon,
+        ":oplata_dodatkowa" => $oplata_dodatkowa,
         ":id_znizki" => $id_znizki
     ]);
 
@@ -77,13 +78,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ":metoda_platnosci" => $metoda_platnosci
     ]);
 
-    echo "<p>Zakup zakończony! Twój bilet został zapisany.</p>";
+    //echo "<p>Zakup zakończony! Twój bilet został zapisany.</p>";
     echo '
-    <form id="redirectForm" action="pokaz_bilet_pracownik.php" method="post">
+    <form id="redirectForm" action="podsumowanie_sprzedazy.php" method="post" target="_blank" style="display:none;">
         <input type="hidden" name="id_biletu" value="' . htmlspecialchars($id_biletu) . '">
     </form>
     <script>
-         document.getElementById("redirectForm").submit();
+        // Otwórz w nowej karcie
+        document.getElementById("redirectForm").submit();
+
+        // Przekieruj bieżącą stronę do index.php
+        window.location.href = "sprzedaj_bilet.php";
     </script>';
     exit;
 
