@@ -82,6 +82,10 @@ if (!isset($_SESSION["user"]) || $_SESSION["role"] !== "Pracownik") {
 
         <div class="grid">
             <div class="card">
+                <a href="sprzedaj_bilet.php">🚪 Sprzedaj bilet</a><br>
+            </div>
+            
+            <div class="card">
                 <a href="weryfikuj_bilet.php">🚪 Weryfikuj bilet</a><br>
             </div>
             

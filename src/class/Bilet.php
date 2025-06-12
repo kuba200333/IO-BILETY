@@ -73,8 +73,8 @@ class Bilet {
         $data_podrozy = date("Y-m-d");
         $kod_qr = md5(uniqid(rand(), true));
 
-        $query = "INSERT INTO bilety (id_pasazera, id_pociagu, id_stacji_start, id_stacji_koniec, miejsce, cena, data_podrozy, kod_qr, id_wagonu) 
-                  VALUES (:id_pasazera, :id_pociagu, :id_stacji_start, :id_stacji_koniec, :miejsce, :cena, :data_podrozy, :kod_qr, :id_wagonu)";
+        $query = "INSERT INTO bilety (id_pasazera, id_pociagu, id_stacji_start, id_stacji_koniec, miejsce, cena, data_podrozy, kod_qr, id_wagonu, oplata_dodatkowa) 
+                  VALUES (:id_pasazera, :id_pociagu, :id_stacji_start, :id_stacji_koniec, :miejsce, :cena, :data_podrozy, :kod_qr, :id_wagonu, 0)";
         $stmt = $this->conn->prepare($query);
         $stmt->execute([
             ":id_pasazera" => $id_pasazera,
@@ -103,28 +103,40 @@ class Bilet {
         ]);
     }
     public function pobierzSzczegoly($kod) {
-    $query = "SELECT bilety.id_biletu, bilety.kod_qr, pociagi.numer_pociagu,
-                     st1.nazwa AS stacja_start, st2.nazwa AS stacja_koniec,
-                     bilety.miejsce, bilety.cena, bilety.data_podrozy, bilety.id_wagonu, bilety.id_znizki,
-                     wagony.klasa,
-                     pasazerowie.imie, pasazerowie.nazwisko, transakcje.data_transakcji,
-                     znizki.nazwa_znizki, znizki.wymiar_znizki
-              FROM bilety
-              JOIN pociagi ON bilety.id_pociagu = pociagi.id_pociagu
-              JOIN stacje st1 ON bilety.id_stacji_start = st1.id_stacji
-              JOIN stacje st2 ON bilety.id_stacji_koniec = st2.id_stacji
-              JOIN pasazerowie ON bilety.id_pasazera = pasazerowie.id_pasazera
-              JOIN transakcje ON bilety.id_biletu = transakcje.id_biletu
-              JOIN znizki ON bilety.id_znizki = znizki.id_znizki
-              JOIN wagony ON bilety.id_wagonu = wagony.id_wagonu
-              WHERE bilety.kod_qr = :kod OR bilety.id_biletu = :kod_int";
+        $query = "SELECT bilety.id_biletu, bilety.kod_qr, pociagi.numer_pociagu,
+                        st1.nazwa AS stacja_start, st2.nazwa AS stacja_koniec,
+                        bilety.miejsce, bilety.cena, bilety.data_podrozy, bilety.id_wagonu, bilety.id_znizki,
+                        wagony.klasa,
+                        pasazerowie.imie, pasazerowie.nazwisko, transakcje.data_transakcji,
+                        znizki.nazwa_znizki, znizki.wymiar_znizki
+                FROM bilety
+                JOIN pociagi ON bilety.id_pociagu = pociagi.id_pociagu
+                JOIN stacje st1 ON bilety.id_stacji_start = st1.id_stacji
+                JOIN stacje st2 ON bilety.id_stacji_koniec = st2.id_stacji
+                LEFT JOIN pasazerowie ON bilety.id_pasazera = pasazerowie.id_pasazera
+                JOIN transakcje ON bilety.id_biletu = transakcje.id_biletu
+                JOIN znizki ON bilety.id_znizki = znizki.id_znizki
+                JOIN wagony ON bilety.id_wagonu = wagony.id_wagonu
+                WHERE bilety.kod_qr = :kod OR bilety.id_biletu = :kod_int";
 
-    $stmt = $this->conn->prepare($query);
-    $stmt->bindValue(":kod", $kod, PDO::PARAM_STR);
-    $stmt->bindValue(":kod_int", (int)$kod, PDO::PARAM_INT);
-    $stmt->execute();
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(":kod", $kod, PDO::PARAM_STR);
+        $stmt->bindValue(":kod_int", (int)$kod, PDO::PARAM_INT);
+        $stmt->execute();
 
-    return $stmt->fetch(PDO::FETCH_ASSOC);
-}
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getBiletById($id_biletu) {
+        $query = "SELECT b.*, p.numer_pociagu, ss.nazwa AS stacja_start, p.typ, sk.nazwa AS stacja_koniec, z.nazwa_znizki AS nazwa_znizki, z.wymiar_znizki, 
+            pas.imie, pas.nazwisko, t.data_transakcji, w.klasa, w.numer_wagonu, w.typ as typ_wagonu, t.metoda_platnosci FROM bilety b JOIN pociagi p ON b.id_pociagu = p.id_pociagu JOIN stacje ss ON b.id_stacji_start = ss.id_stacji JOIN stacje sk ON b.id_stacji_koniec = sk.id_stacji LEFT JOIN znizki z ON b.id_znizki = z.id_znizki LEFT JOIN pasazerowie pas ON b.id_pasazera = pas.id_pasazera JOIN transakcje t on t.id_biletu=b.id_biletu JOIN wagony w on w.id_wagonu=b.id_wagonu
+            WHERE b.id_biletu = :id_biletu";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id_biletu', $id_biletu, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
 }
 ?>
