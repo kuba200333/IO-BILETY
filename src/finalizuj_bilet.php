@@ -83,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Wstawienie transakcji do bazy
     $query_transakcja = "INSERT INTO transakcje (id_biletu, id_pasazera, kwota, metoda_platnosci, status, data_transakcji) 
-                         VALUES (:id_biletu, :id_pasazera, :kwota, :metoda_platnosci, 'Zrealizowana', NOW())";
+                         VALUES (:id_biletu, :id_pasazera, :kwota, :metoda_platnosci, 'Zakończona', NOW())";
     $stmt = $db->prepare($query_transakcja);
     $stmt->execute([
         ":id_biletu" => $id_biletu,
