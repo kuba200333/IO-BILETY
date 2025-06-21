@@ -37,7 +37,6 @@ $stacje = $stacjeObj-> pobierzWszystkie($db);
     <title>Zajętość miejsc - wybór wagonu</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Dodatkowy CSS dla widoku wagonów */
         .kontener-wagonow {
             display: flex;
             overflow-x: auto;

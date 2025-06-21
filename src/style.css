@@ -16,7 +16,6 @@ body {
     margin: 0 auto;
 }
 
-/* HEADER */
 header {
     background-color: #0f62fe;
     color: white;
@@ -29,7 +28,6 @@ header h1 {
     font-size: 2rem;
 }
 
-/* MAIN SECTION */
 main {
     padding: 2rem 0;
 }
@@ -54,7 +52,6 @@ main {
     margin-top: 1rem;
 }
 
-/* BUTTONS */
 .btn {
     padding: 0.75rem 1.5rem;
     background-color: #0f62fe;
@@ -78,7 +75,6 @@ main {
     background-color: #a02020;
 }
 
-/* FOOTER */
 footer {
     background-color: #eee;
     padding: 1rem 0;
@@ -89,7 +85,6 @@ footer {
 }
 
 
-/* Formularze */
 input[type="text"],
 input[type="password"],
 input[type="email"],
@@ -115,7 +110,6 @@ textarea:focus {
     box-shadow: 0 0 5px rgba(0, 119, 204, 0.4);
 }
 
-/* Przycisk */
 input[type="submit"],
 button {
     background-color: #0077cc;
@@ -140,7 +134,6 @@ button:active {
     transform: translateY(0);
 }
 
-/* Formularz - odstępy */
 form {
     background-color: #f9f9f9;
     padding: 2rem;
@@ -151,14 +144,7 @@ form {
 }
 
 .form_klasa {
-    display: none; /* To jest najprostsze rozwiązanie, całkowicie usunie go z układu */
-    /* lub jeśli chcesz zachować strukturę, ale usunąć wizualne cechy: */
-    /* background-color: transparent; */
-    /* padding: 0; */
-    /* box-shadow: none; */
-    /* max-width: none; */
-    /* height: 0; */
-    /* overflow: hidden; */
+    display: none; 
 }
 label {
     font-weight: 500;
@@ -166,7 +152,6 @@ label {
     display: block;
 }
 
-/* Styl ładnej tabeli */
 .styled-table {
     width: 100%;
     border-collapse: collapse;
