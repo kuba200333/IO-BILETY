@@ -62,17 +62,30 @@ class RozkladJazdy {
     }
 
     public function getGodzinaPrzyjazdu(int $id_biletu): string {
-    $query = "SELECT godzina_przyjazdu FROM rozklad_jazdy 
-              WHERE id_pociagu = (SELECT id_pociagu FROM bilety WHERE id_biletu = :id_biletu)
-                AND id_stacji = (SELECT id_stacji_koniec FROM bilety WHERE id_biletu = :id_biletu)";
+        $query = "SELECT godzina_przyjazdu FROM rozklad_jazdy 
+                WHERE id_pociagu = (SELECT id_pociagu FROM bilety WHERE id_biletu = :id_biletu)
+                    AND id_stacji = (SELECT id_stacji_koniec FROM bilety WHERE id_biletu = :id_biletu)";
 
-    $stmt = $this->db->prepare($query);
-    $stmt->bindParam(":id_biletu", $id_biletu, PDO::PARAM_INT);
-    $stmt->execute();
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(":id_biletu", $id_biletu, PDO::PARAM_INT);
+        $stmt->execute();
 
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    return $result ? $result['godzina_przyjazdu'] : "Brak danych";
-}
+        return $result ? $result['godzina_przyjazdu'] : "Brak danych";
+    }
+
+    public function dodajRozklad($id_pociagu, $id_stacji, $godzina_przyjazdu, $godzina_odjazdu) {
+        $query = "INSERT INTO rozklad_jazdy (id_pociagu, id_stacji, godzina_przyjazdu, godzina_odjazdu) 
+                  VALUES (:id_pociagu, :id_stacji, :godzina_przyjazdu, :godzina_odjazdu)";
+
+        $stmt = $this->db->prepare($query);
+        return $stmt->execute([
+            ":id_pociagu" => $id_pociagu,
+            ":id_stacji" => $id_stacji,
+            ":godzina_przyjazdu" => $godzina_przyjazdu,
+            ":godzina_odjazdu" => $godzina_odjazdu
+        ]);
+    }
 }
 ?>

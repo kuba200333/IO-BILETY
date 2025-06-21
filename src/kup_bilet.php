@@ -46,7 +46,7 @@ if ($numer_pociagu && $stacja_start && $stacja_koniec) {
     $id_stacji_koniec = $row_koniec ? $row_koniec["id_stacji"] : null;
 
     $odleglosc = $bilet->obliczOdleglosc($numer_pociagu, $stacja_start, $stacja_koniec);
-
+    
     $data_podrozy = $_POST["data_podrozy"];
 
     list($cena_klasa_1, $promo1) = $bilet->obliczCene($odleglosc, 1, 0, $data_podrozy);
@@ -84,6 +84,7 @@ if ($numer_pociagu && $stacja_start && $stacja_koniec) {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Kup bilet</title>
+    <link rel="stylesheet" href="style.css"> 
     <style>
         .kafelki { display: flex; gap: 10px; margin-bottom: 20px; }
         .kafelek {
@@ -258,10 +259,16 @@ if ($numer_pociagu && $stacja_start && $stacja_koniec) {
     </script>
 </head>
 <body>
-    <h2>Wybierz klasę wagonu:</h2>
+    <header>
+        <div class="container">
+            <h1>Sprzedaż biletu</h1>
+        </div>
+    </header>
+    <main>
+        <h2>Wybierz klasę wagonu:</h2>
 
     <!-- Formularz tylko do wyboru klasy -->
-    <form id="form_klasa" method="post" action="">
+    <form id="form_klasa" method="post" class="form_klasa" action="">
         <input type="hidden" id="klasa_wybor" name="klasa" value="" />
         <input type="hidden" name="numer_pociagu" value="<?= htmlspecialchars($numer_pociagu) ?>" />
         <input type="hidden" name="stacja_start" value="<?= htmlspecialchars($stacja_start) ?>" />
@@ -319,9 +326,9 @@ if ($numer_pociagu && $stacja_start && $stacja_koniec) {
             </div>
             <div class='cos'>
             <h3>Legenda</h3>
-            Miejsce wolne: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<img src="image/zielone_miejsce.png" alt="Miejsce wolne">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-            Miejsce zajęte: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<img src="image/szare_miejsce.png" alt="Miejsce zajęte"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-            Miejsce wybrane:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <img src="image/pomaranczowe_miejsce.png" alt="Miejsce wybrane"><br>
+            Miejsce wolne: <img src="image/zielone_miejsce.png" alt="Miejsce wolne"><br>
+            Miejsce zajęte: <img src="image/szare_miejsce.png" alt="Miejsce zajęte"> <br>
+            Miejsce wybrane: <img src="image/pomaranczowe_miejsce.png" alt="Miejsce wybrane"><br><br>
 
             <h3>Wybierz zniżkę:</h3>
             <select name="znizka" id="znizka" onchange="aktualizujCene()">
@@ -352,5 +359,11 @@ if ($numer_pociagu && $stacja_start && $stacja_koniec) {
         </form>
         </div>
     </div>
+    </main>
+    <footer>
+        <div class="container">
+            &copy; <?= date('Y') ?> PolRail
+        </div>
+    </footer>
 </body>
 </html>
