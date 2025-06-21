@@ -2,7 +2,7 @@
 <?php
 class Database {
     private $host = "localhost"; 
-    private $db_name = "bilety";
+    private $db_name = "io-bilety";
     private $username = "root"; 
     private $password = ""; 
     public $conn;
