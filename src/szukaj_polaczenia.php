@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </select>
 
             <label for="data">Data:</label>
-            <input type="date" id="data" name="data" value="<?= isset($data_podrozy) ? htmlspecialchars($data_podrozy) : $dzisiejsza_data ?>" required>
+            <input type="date" id="data" name="data" value="<?= isset($data_podrozy) ? htmlspecialchars($data_podrozy) : $dzisiejsza_data ?>" min="<?= date('Y-m-d') ?>" required>
 
             <label for="godzina">Godzina:</label>
             <input type="time" id="godzina" name="godzina" value="<?= isset($godzina) ? htmlspecialchars($godzina) : $aktualna_godzina ?>">
@@ -133,7 +133,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </main>
 
     <footer>
-        &copy; <?= date("Y") ?> Twoja Firma
+        &copy; <?= date("Y") ?> InterTicket
     </footer>
 </body>
 </html>

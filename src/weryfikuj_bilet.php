@@ -7,7 +7,7 @@ require_once "class/Pracownik.php";
 
 session_start();
 
-if (!isset($_SESSION["user"]) || $_SESSION["role"] !== "Kierownik") {
+if (!isset($_SESSION["user"]) || $_SESSION["role"] !== "Pracownik") {
     header("Location: index.php");
     exit;
 }

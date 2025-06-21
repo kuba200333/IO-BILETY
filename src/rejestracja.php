@@ -41,7 +41,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h2 style="text-align: center;">Rejestracja pasażera</h2>
+    <header>
+        <div class="container">
+            <h2 style="text-align: center;">Rejestracja pasażera</h2>
+        </div>
+    </header>
+    
+    <nav class="container" style="margin-top: 1rem;">
+        <a href="index.php" class="btn">Strona główna</a>
+    </nav>
     <form method="post">
         <div>
             <label>Imię:</label>
@@ -75,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <div>
             <label>Numer telefonu:</label>
-            <input type="tel" name="telefon" required pattern="[0-9]{9}" title="Podaj 9-cyfrowy numer telefonu">
+            <input type="text" name="telefon" required pattern="[0-9]{9}" title="Podaj 9-cyfrowy numer telefonu">
         </div>
 
         <div>
@@ -92,5 +100,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="submit" value="Zarejestruj się">
         </div>
     </form>
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 InterTicket. Wszelkie prawa zastrzeżone.</p>
+        </div>
+    </footer>
 </body>
 </html>
