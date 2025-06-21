@@ -6,12 +6,6 @@ class SkanowanieBiletow {
         $this->conn = $db;
     }
 
-    /**
-     * Zapisuje skanowanie biletu przez pracownika.
-     * @param int $id_biletu
-     * @param int $id_pracownika
-     * @return bool - true jeśli zapisano poprawnie, false w przeciwnym wypadku
-     */
     public function zapiszSkanowanie(int $id_biletu, int $id_pracownika): bool {
         $query = "INSERT INTO skanowania_biletow (id_biletu, id_pracownika, data_skanowania) 
                   VALUES (:id_biletu, :id_pracownika, NOW())";
