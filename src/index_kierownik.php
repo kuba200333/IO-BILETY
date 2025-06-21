@@ -11,7 +11,7 @@ if (!isset($_SESSION["user"]) || $_SESSION["role"] !== "Kierownik") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel pasażera</title>
+    <title>Panel kierownika</title>
     <link rel="stylesheet" href="style.css">
     <style>
         .dashboard {
@@ -83,6 +83,22 @@ if (!isset($_SESSION["user"]) || $_SESSION["role"] !== "Kierownik") {
         <div class="grid">
             <div class="card">
                 <a href="przydziel_zwrot.php">Przydziel zwrot</a>
+            </div>
+            <div class="card">
+                <a href="statystyki_pracownikow.php">Statystyki pracowników</a>
+            </div>
+            <div class="card">
+                <a href="dodaj_pociag.php">Dodaj pociąg</a>
+            </div>
+            <div class="card">
+                <a href="dodaj_rozklad.php">Dodaj rozkład do pociągu</a>
+            </div>
+            <div class="card">
+                <a href="dodaj_sklad.php">Dodaj skład do pociągu</a>
+            </div>
+
+            <div class="card">
+                <a href="dodaj_wagon.php">Dodaj wagon do składu</a>
             </div>
             <div class="card">
                 <a href="https://www.sejm.gov.pl/prawo/konst/polski/kon1.htm">📄 Regulamin</a>

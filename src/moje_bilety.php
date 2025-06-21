@@ -25,7 +25,7 @@ $bilety = $pasazer->getBilety();
 <head>
     <meta charset="UTF-8">
     <title>Moje bilety</title>
-    <link rel="stylesheet" href="style.css"> <!-- link do stylów -->
+    <link rel="stylesheet" href="style.css"> 
 </head>
 <body>
     <header>

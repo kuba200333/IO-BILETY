@@ -115,6 +115,11 @@ $godzina_odjazdu = $rozkladJazdy->getGodzinaOdjazdu($id_biletu);
                 <tr><th>Liczba km</th><td><?= htmlspecialchars($liczba_km) ?> km</td></tr>
                 <tr><th>Sprzedawca</th><td>InterTicket</td></tr>
                 <tr><th>Data zakupu</th><td><?= $data_transakcji ?></td></tr>
+                <tr><th>Pobierz bilet</th><td>
+                <form action="podsumowanie_sprzedazy.php" method="post" style="margin-top: 20px;">
+                    <input type="hidden" name="id_biletu" value="<?= htmlspecialchars($bilet["id_biletu"]) ?>">
+                    <button type="submit" class="btn">Pobierz bilet PDF</button>
+                </form></td></tr>
             </tbody>
         </table>
     </section>

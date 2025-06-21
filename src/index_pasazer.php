@@ -86,7 +86,7 @@ if (!isset($_SESSION["user"]) || $_SESSION["role"] !== "pasazer") {
                 <a href="moje_bilety.php">🎫 Moje bilety</a>
             </div>
             <div class="card">
-                <a href="szukaj_polaczenia.php">🔍 Wyszukaj połączenie</a>
+                <a href="szukaj_polaczenia.php">🔍 Wyszukaj połączenie i kup bilet</a>
             </div>
             <div class="card">
                 <a href="moje_zwroty.php">💸 Moje zwroty</a>

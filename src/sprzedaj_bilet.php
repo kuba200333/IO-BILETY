@@ -133,7 +133,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </main>
 
     <footer>
-        &copy; <?= date("Y") ?> Twoja Firma
+        <div class="container">
+            &copy; <?= date('Y') ?> PolRail
+        </div>
     </footer>
 </body>
 </html>

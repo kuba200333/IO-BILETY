@@ -146,10 +146,20 @@ form {
     padding: 2rem;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    max-width: 500px;
+    max-width: 1000px;
     margin: auto;
 }
 
+.form_klasa {
+    display: none; /* To jest najprostsze rozwiązanie, całkowicie usunie go z układu */
+    /* lub jeśli chcesz zachować strukturę, ale usunąć wizualne cechy: */
+    /* background-color: transparent; */
+    /* padding: 0; */
+    /* box-shadow: none; */
+    /* max-width: none; */
+    /* height: 0; */
+    /* overflow: hidden; */
+}
 label {
     font-weight: 500;
     margin-bottom: 0.4rem;

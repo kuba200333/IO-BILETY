@@ -94,6 +94,10 @@ if (!isset($_SESSION["user"]) || $_SESSION["role"] !== "Pracownik") {
             </div>
 
             <div class="card">
+                <a href="zajetosc_miejsc.php">🚪 Zajetość miejsc</a><br>
+            </div>
+
+            <div class="card">
                 <a href="https://www.sejm.gov.pl/prawo/konst/polski/kon1.htm">📄 Regulamin</a>
             </div>
         </div>

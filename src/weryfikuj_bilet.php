@@ -2,8 +2,15 @@
 require_once "config.php";
 require_once "class/Bilet.php";
 require_once "class/RozkladJazdy.php";
+require_once "class/SkanowanieBiletow.php";
+require_once "class/Pracownik.php";
 
 session_start();
+
+if (!isset($_SESSION["user"]) || $_SESSION["role"] !== "Kierownik") {
+    header("Location: index.php");
+    exit;
+}
 $database = new Database();
 $db = $database->getConnection();
 
@@ -13,6 +20,10 @@ $rozkladObj = new RozkladJazdy($db);
 
 $bilet = null;
 $godzina_odjazdu = $godzina_przyjazdu = $liczba_km = "";
+
+$pracownikObj = new Pracownik($db);
+$login = $_SESSION["user"];
+$id_pracownika = $pracownikObj->getIdByLogin($login);
 
 if (!empty($kod)) {
     $bilet = $biletObj->pobierzSzczegoly($kod);
@@ -26,6 +37,10 @@ if (!empty($kod)) {
         $godzina_odjazdu = $rozkladObj->getGodzinaOdjazdu($id_biletu);
         $godzina_przyjazdu = $rozkladObj->getGodzinaPrzyjazdu($id_biletu);
         $liczba_km = $biletObj->obliczOdleglosc($numer_pociagu, $stacja_start, $stacja_koniec);
+        $skanowanieObj = new SkanowanieBiletow($db);
+        $data_skanowania = date('Y-m-d H:i:s');
+        $sukces = $skanowanieObj->zapiszSkanowanie($bilet['id_biletu'], $id_pracownika, $data_skanowania);
+    
     }
 }
 ?>
@@ -76,7 +91,6 @@ if (!empty($kod)) {
         <?php elseif (!empty($kod)): ?>
             <p style="color:red; margin-top:1rem;">Nie znaleziono biletu dla podanego kodu.</p>
         <?php endif; ?>
-
         <p id="processing-message" style="color: green; display: none; margin-top:1rem;">Przetwarzanie...</p>
 
         <button type="button" onclick="startScanner()">Skanuj kod QR</button>
