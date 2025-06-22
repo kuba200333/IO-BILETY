@@ -1,23 +1,19 @@
 <?php
-// BLOK 1: Inicjalizacja sesji i załadowanie zależności
 session_start();
 require_once "config.php";
 require_once "class/Zwroty.php";
 require_once "class/Pracownik.php";
 
-// BLOK 2: Sprawdzenie logowania
 if (!isset($_SESSION["user"])) {
     header("Location: login.php");
     exit;
 }
 
-// BLOK 3: Połączenie z bazą danych i inicjalizacja obiektów
 $database = new Database();
 $db = $database->getConnection();
 $pracownikObj = new Pracownik($db);
 $zwrotyObj = new Zwroty($db);
 
-// BLOK 4: Pobranie ID pracownika
 $login = $_SESSION["user"];
 $id_pracownika = $pracownikObj->getIdByLogin($login);
 
@@ -26,7 +22,6 @@ if (!$id_pracownika) {
     exit;
 }
 
-// BLOK 5: Pobranie zwrotów przypisanych do pracownika
 $zwroty = $zwrotyObj->getZwrotyByPracownikId($id_pracownika);
 ?>
 

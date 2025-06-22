@@ -29,43 +29,43 @@ class Bilet {
     }
 
     public function obliczCene($odleglosc, $klasa, $znizka, $data_podrozy) {
-    $query = "SELECT cena FROM ceny_odleglosci WHERE :odleglosc BETWEEN odleglosc_min AND odleglosc_max AND klasa = :klasa";
-    $stmt = $this->conn->prepare($query);
-    $stmt->bindParam(":odleglosc", $odleglosc, PDO::PARAM_INT);
-    $stmt->bindParam(":klasa", $klasa, PDO::PARAM_STR);
-    $stmt->execute();
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-    if (!$row) return [0, 0];
+        $query = "SELECT cena FROM ceny_odleglosci WHERE :odleglosc BETWEEN odleglosc_min AND odleglosc_max AND klasa = :klasa";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":odleglosc", $odleglosc, PDO::PARAM_INT);
+        $stmt->bindParam(":klasa", $klasa, PDO::PARAM_STR);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if (!$row) return [0, 0];
 
-    $cena_podstawowa = $row["cena"];
+        $cena_podstawowa = $row["cena"];
 
-    if ($klasa === "sypialny") {
-        return [$cena_podstawowa + 79.00, 0]; // bez promocji
-    }
-
-    $dzisiaj = new DateTime();
-    $data_podrozy_dt = new DateTime($data_podrozy);
-    $roznica = $dzisiaj->diff($data_podrozy_dt)->days;
-    $czy_przyszlosc = $data_podrozy_dt > $dzisiaj;
-
-    $promo = 0;
-    if ($czy_przyszlosc) {
-        if ($roznica >= 21) {
-            $promo = 30;
-        } elseif ($roznica >= 14) {
-            $promo = 20;
-        } elseif ($roznica >= 7) {
-            $promo = 10;
+        if ($klasa === "sypialny") {
+            return [$cena_podstawowa + 79.00, 0]; // bez promocji
         }
+
+        $dzisiaj = new DateTime();
+        $data_podrozy_dt = new DateTime($data_podrozy);
+        $roznica = $dzisiaj->diff($data_podrozy_dt)->days;
+        $czy_przyszlosc = $data_podrozy_dt > $dzisiaj;
+
+        $promo = 0;
+        if ($czy_przyszlosc) {
+            if ($roznica >= 21) {
+                $promo = 30;
+            } elseif ($roznica >= 14) {
+                $promo = 20;
+            } elseif ($roznica >= 7) {
+                $promo = 10;
+            }
+        }
+
+        $laczna_znizka = $znizka + $promo;
+        if ($laczna_znizka > 90) $laczna_znizka = 90;
+
+        $cena_koncowa = round($cena_podstawowa * (1 - ($laczna_znizka / 100)), 2);
+        return [$cena_koncowa, $promo];
     }
-
-    $laczna_znizka = $znizka + $promo;
-    if ($laczna_znizka > 90) $laczna_znizka = 90;
-
-    $cena_koncowa = round($cena_podstawowa * (1 - ($laczna_znizka / 100)), 2);
-    return [$cena_koncowa, $promo];
-}
 
     public function zapiszBilet($id_pasazera, $numer_pociagu, $stacja_start, $stacja_koniec, $klasa, $znizka, $wagon, $miejsce) {
         $odleglosc = $this->obliczOdleglosc($numer_pociagu, $stacja_start, $stacja_koniec);
@@ -136,6 +136,41 @@ class Bilet {
         $stmt->bindParam(':id_biletu', $id_biletu, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function dodajDaneBiletu($id_pasazera, $numer_pociagu, $id_stacji_start, $id_stacji_koniec, $miejsce, $cena, $data_podrozy, $kod_qr, $id_wagonu, $id_znizki, $oplata_dodatkowa = 0) {
+        $query_bilet = "INSERT INTO bilety (id_pasazera, id_pociagu, id_stacji_start, id_stacji_koniec, miejsce, cena, data_podrozy, kod_qr, id_wagonu, id_znizki, oplata_dodatkowa) 
+                        VALUES (:id_pasazera, :id_pociagu, :id_stacji_start, :id_stacji_koniec, :miejsce, :cena, :data_podrozy, :kod_qr, :id_wagonu, :id_znizki, :oplata_dodatkowa)";
+        
+        $stmt = $this->conn->prepare($query_bilet);
+
+        $query_id_pociagu = "SELECT id_pociagu FROM pociagi WHERE numer_pociagu = :numer_pociagu";
+        $stmt_pociag = $this->conn->prepare($query_id_pociagu);
+        $stmt_pociag->bindParam(":numer_pociagu", $numer_pociagu, PDO::PARAM_STR);
+        $stmt_pociag->execute();
+        $row_pociag = $stmt_pociag->fetch(PDO::FETCH_ASSOC);
+        $id_pociagu = $row_pociag ? $row_pociag['id_pociagu'] : null;
+
+        if (!$id_pociagu) {
+            throw new Exception("Nie znaleziono pociągu o numerze: " . $numer_pociagu);
+        }
+
+        $stmt->bindParam(":id_pasazera", $id_pasazera, PDO::PARAM_INT);
+        $stmt->bindParam(":id_pociagu", $id_pociagu, PDO::PARAM_INT);
+        $stmt->bindParam(":id_stacji_start", $id_stacji_start, PDO::PARAM_INT);
+        $stmt->bindParam(":id_stacji_koniec", $id_stacji_koniec, PDO::PARAM_INT);
+        $stmt->bindParam(":miejsce", $miejsce, PDO::PARAM_INT);
+        $stmt->bindParam(":cena", $cena, PDO::PARAM_STR);
+        $stmt->bindParam(":data_podrozy", $data_podrozy, PDO::PARAM_STR);
+        $stmt->bindParam(":kod_qr", $kod_qr, PDO::PARAM_STR);
+        $stmt->bindParam(":id_wagonu", $id_wagonu, PDO::PARAM_INT);
+        $stmt->bindParam(":id_znizki", $id_znizki, PDO::PARAM_INT);
+        $stmt->bindParam(":oplata_dodatkowa", $oplata_dodatkowa, PDO::PARAM_INT); 
+
+        if ($stmt->execute()) {
+            return $this->conn->lastInsertId();
+        }
+        return false;
     }
 
 }

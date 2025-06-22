@@ -20,7 +20,6 @@ if (!$bilet) {
 
 if (ob_get_length()) ob_clean();
 
-// --- Przygotowanie godzin i daty ---
 $rozkladObj = new RozkladJazdy($db);
 $godzinaOdjazdu = $rozkladObj->getGodzinaOdjazdu((int)$_POST['id_biletu']);
 $godzinaPrzyjazdu = $rozkladObj->getGodzinaPrzyjazdu((int)$_POST['id_biletu']);
@@ -38,7 +37,6 @@ $dataFormat = $dataPodrozy->format('d.m');
 
 $liczba_km = $biletObj->obliczOdleglosc($bilet["numer_pociagu"], $bilet["stacja_start"], $bilet["stacja_koniec"]);
 
-// --- TCPDF konfiguracja ---
 $pdf = new TCPDF('L', 'mm', 'A5', true, 'UTF-8', false);
 $pdf->SetMargins(10, 10, 10);
 $pdf->setPrintHeader(false);
@@ -46,10 +44,6 @@ $pdf->setPrintFooter(false);
 $pdf->AddPage();
 $pdf->SetFont('dejavusans', '', 9);
 
-// --- Logo ---
-//$pdf->Image(__DIR__ . '/image/logo.jpg', 10, 8, 30, 10, 'JPG');
-
-// --- Układ górny ---
 $html = '
 <table cellspacing="0" cellpadding="3" border="0" width="100%">
   <tr>
@@ -66,7 +60,6 @@ $html = '
 <br/>
 ';
 
-// --- Główna tabela z danymi ---
 $html .= '
 <table border="1" cellpadding="4" cellspacing="0">
   <tr bgcolor="#f0f0f0">
@@ -106,7 +99,6 @@ Wagon z przedziałami
 <br/>
 ';
 
-// --- Tabela z kodem kreskowym / QR kodem ---
 $html .= '
 <table border="0" width="100%">
   <tr>
@@ -120,7 +112,6 @@ $html .= '
 
 $pdf->writeHTML($html, true, false, false, false, '');
 
-// --- QR Code ---
 $qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' . urlencode($bilet['kod_qr']);
 $pdf->Image($qrUrl, 160, 90, 30, 30, 'PNG');
 

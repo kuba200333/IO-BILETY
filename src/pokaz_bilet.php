@@ -19,7 +19,6 @@ if (!$pasazer->loadByLogin($_SESSION["user"])) {
     die("Błąd ładowania użytkownika.");
 }
 
-// Sprawdzenie, czy id_biletu zostało przesłane POSTem
 if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST["id_biletu"])) {
     header("Location: moje_bilety.php");
     exit;
@@ -28,7 +27,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST["id_biletu"])) {
 $bilety = $pasazer->getBilety();
 $id_biletu = (int)$_POST["id_biletu"];
 
-// Sprawdzenie, czy bilet należy do zalogowanego pasażera
 $bilet = null;
 foreach ($bilety as $b) {
     if ($b["id_biletu"] == $id_biletu) {
@@ -70,7 +68,6 @@ $godzina_odjazdu = $rozkladJazdy->getGodzinaOdjazdu($id_biletu);
         <a class="btn" href="moje_bilety.php">Powrót do listy biletów</a>
     </nav>
 
-    <!-- Sekcja podróży -->
     <section class="hero">
         <h2>Podróż tam - kurs</h2>
         <table class="styled-table">
@@ -82,7 +79,6 @@ $godzina_odjazdu = $rozkladJazdy->getGodzinaOdjazdu($id_biletu);
         </table>
     </section>
 
-    <!-- Sekcja ceny -->
     <section>
         <h2>Informacja o cenie</h2>
         <table class="styled-table">
@@ -93,7 +89,6 @@ $godzina_odjazdu = $rozkladJazdy->getGodzinaOdjazdu($id_biletu);
         </table>
     </section>
 
-    <!-- Sekcja biletu -->
     <section>
         <h2>Bilet</h2>
         <table class="styled-table">

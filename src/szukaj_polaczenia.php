@@ -15,7 +15,6 @@ $db = $database->getConnection();
 $rozklad = new RozkladJazdy($db);
 $stacjeHandler = new Stacje($db);
 
-// Pobranie listy stacji
 $stacje = $stacjeHandler->pobierzWszystkie();
 
 $dzisiejsza_data = date("Y-m-d");
