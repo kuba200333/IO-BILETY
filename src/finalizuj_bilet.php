@@ -1,6 +1,9 @@
 <?php
 require_once "config.php";
 require_once "class/Bilet.php";
+require_once "class/Transakcja.php"; 
+require_once "class/Pociag.php";
+require_once "class/Pasazer.php";
 
 session_start();
 
@@ -17,21 +20,12 @@ if (!isset($_SERVER["HTTP_REFERER"]) || strpos($_SERVER["HTTP_REFERER"], "kup_bi
 
 $database = new Database();
 $db = $database->getConnection();
-$bilet = new Bilet($db);
+$biletObj  = new Bilet($db);
+$transakcjaObj = new Transakcja($db);
+$pasazerObj= new Pasazer($db);
 
-// Pobranie ID pasażera na podstawie loginu
-$login = $_SESSION["user"];
-$query_pasazer = "SELECT id_pasazera FROM pasazerowie WHERE login = :login";
-$stmt = $db->prepare($query_pasazer);
-$stmt->bindParam(":login", $login, PDO::PARAM_STR);
-$stmt->execute();
-$row_pasazer = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if (!$row_pasazer) {
-    die("Błąd: Nie znaleziono pasażera w bazie.");
-}
-
-$id_pasazera = $row_pasazer["id_pasazera"];
+$id_pasazera = $pasazerObj->getIdByLogin($_SESSION["user"]);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $numer_pociagu = $_POST["numer_pociagu"];
@@ -44,53 +38,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $metoda_platnosci = $_POST["metoda_platnosci"];
     $cena = $_POST["cena"];
     $data_podrozy = $_POST["data_podrozy"];
-    
 
-    // Pobranie ID pociągu na podstawie numeru
-    $query_pociag = "SELECT id_pociagu FROM pociagi WHERE numer_pociagu = :numer_pociagu";
-    $stmt = $db->prepare($query_pociag);
-    $stmt->bindParam(":numer_pociagu", $numer_pociagu, PDO::PARAM_STR);
-    $stmt->execute();
-    $row_pociag = $stmt->fetch(PDO::FETCH_ASSOC);
+    $id_pociagu = 0;
 
-    if (!$row_pociag) {
-        die("Błąd: Nie znaleziono pociągu w bazie.");
-    }
-
-    $id_pociagu = $row_pociag["id_pociagu"];
-
-    // Generowanie kodu QR (dla uproszczenia używamy unikalnego ID)
     $kod_qr = md5(uniqid(rand(), true));
 
-    // Wstawienie biletu do bazy danych
-    $query_bilet = "INSERT INTO bilety (id_pasazera, id_pociagu, id_stacji_start, id_stacji_koniec, miejsce, cena, data_podrozy, kod_qr, id_wagonu, id_znizki) 
-                    VALUES (:id_pasazera, :id_pociagu, :id_stacji_start, :id_stacji_koniec, :miejsce, :cena, :data_podrozy, :kod_qr, :id_wagonu, :id_znizki)";
-    $stmt = $db->prepare($query_bilet);
-    $stmt->execute([
-        ":id_pasazera" => $id_pasazera,
-        ":id_pociagu" => $id_pociagu,
-        ":id_stacji_start" => $id_stacji_start,
-        ":id_stacji_koniec" => $id_stacji_koniec,
-        ":miejsce" => $miejsce,
-        ":cena" => $cena,
-        ":data_podrozy" => $data_podrozy,
-        ":kod_qr" => $kod_qr,
-        ":id_wagonu" => $wagon,
-        ":id_znizki" => $id_znizki
-    ]);
+    $oplata_dodatkowa=0;
+    $id_biletu = $biletObj->dodajDaneBiletu(
+        $id_pasazera,
+        $numer_pociagu,
+        $id_stacji_start,
+        $id_stacji_koniec,
+        $miejsce,
+        $cena,
+        $data_podrozy,
+        $kod_qr,
+        $wagon,
+        $id_znizki,
+        $oplata_dodatkowa
+    );
 
-    $id_biletu = $db->lastInsertId();
-
-    // Wstawienie transakcji do bazy
-    $query_transakcja = "INSERT INTO transakcje (id_biletu, id_pasazera, kwota, metoda_platnosci, status, data_transakcji) 
-                         VALUES (:id_biletu, :id_pasazera, :kwota, :metoda_platnosci, 'Zakończona', NOW())";
-    $stmt = $db->prepare($query_transakcja);
-    $stmt->execute([
-        ":id_biletu" => $id_biletu,
-        ":id_pasazera" => $id_pasazera,
-        ":kwota" => $cena,
-        ":metoda_platnosci" => $metoda_platnosci
-    ]);
+    $transakcjaDodana = $transakcjaObj->dodajTransakcje(
+        $id_biletu,
+        $cena,
+        $metoda_platnosci,
+        $id_pasazera 
+    );
 
     //echo "<p>Zakup zakończony! Twój bilet został zapisany.</p>";
     echo '

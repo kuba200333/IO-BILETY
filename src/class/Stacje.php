@@ -11,5 +11,15 @@ class Stacje {
         $stmt = $this->db->query($query);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function getIdStationByName($nazwa) {
+        $query = "SELECT * FROM stacje WHERE nazwa = :nazwa"; 
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':nazwa', $nazwa, PDO::PARAM_STR); 
+        $stmt->execute();
+        
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row ? $row['id_stacji'] : null; 
+    }
 }
 ?>  

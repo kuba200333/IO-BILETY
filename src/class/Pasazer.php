@@ -97,4 +97,12 @@ class Pasazer {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function getIdByLogin($login) {
+        $query = "SELECT * FROM " . $this->table_name . " WHERE login = :login";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":login", $login);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row ? $row["id_pasazera"] : null;
+    }
 }

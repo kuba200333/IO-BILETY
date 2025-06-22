@@ -65,7 +65,7 @@ class Zwroty {
     }
 
     public function getZwrotById($id_zwrotu) {
-        $query = "SELECT z.*, b.id_pasazera, p.imie, p.nazwisko, p.adres, p.miejscowosc, p.kod_pocztowy, CONCAT(s1.nazwa, ' - ', s2.nazwa) AS relacja FROM zwroty z JOIN bilety b ON z.id_biletu = b.id_biletu JOIN pasazerowie p ON b.id_pasazera = p.id_pasazera JOIN pociagi po ON b.id_pociagu = po.id_pociagu JOIN stacje s1 ON b.id_stacji_start = s1.id_stacji JOIN stacje s2 ON b.id_stacji_koniec = s2.id_stacji
+        $query = "SELECT z.*, b.id_pasazera, p.imie, p.nazwisko, p.adres, p.miejscowosc, p.kod_pocztowy, CONCAT(s1.nazwa, ' - ', s2.nazwa) AS relacja, p.telefon, p.email FROM zwroty z JOIN bilety b ON z.id_biletu = b.id_biletu JOIN pasazerowie p ON b.id_pasazera = p.id_pasazera JOIN pociagi po ON b.id_pociagu = po.id_pociagu JOIN stacje s1 ON b.id_stacji_start = s1.id_stacji JOIN stacje s2 ON b.id_stacji_koniec = s2.id_stacji
               WHERE z.id_zwrotu = :id_zwrotu";
 
         $stmt = $this->conn->prepare($query);

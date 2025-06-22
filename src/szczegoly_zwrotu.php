@@ -9,19 +9,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["id_zwrotu"])) {
     try {
         $database = new Database();
         $db = $database->getConnection();
-        $zwroty = new Zwroty($db);
-
-        // Pobranie szczegółów zwrotu
-        $query = "SELECT z.*, 
-                         p.imie, p.nazwisko, p.email, p.telefon, p.adres, p.kod_pocztowy, p.miejscowosc 
-                  FROM zwroty z 
-                  JOIN pasazerowie p ON z.id_pasazera = p.id_pasazera 
-                  WHERE z.id_zwrotu = :id_zwrotu";
-
-        $stmt = $db->prepare($query);
-        $stmt->bindParam(":id_zwrotu", $id_zwrotu, PDO::PARAM_INT);
-        $stmt->execute();
-        $zwrot = $stmt->fetch(PDO::FETCH_ASSOC);
+        $zwrotyObj = new Zwroty($db);
+        $zwrot = $zwrotyObj->getZwrotById($id_zwrotu);
 
         if (!$zwrot) {
             echo "<p>Nie znaleziono zwrotu o podanym ID.</p>";

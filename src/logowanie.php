@@ -31,7 +31,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $haslo = $_POST["haslo"];
 
     if ($user->login($login, $haslo)) {
-        // Przekierowanie po poprawnym logowaniu
         switch ($_SESSION["role"]) {
             case "pasazer": header("Location: index_pasazer.php"); break;
             case "Pracownik": header("Location: index_pracownik.php"); break;

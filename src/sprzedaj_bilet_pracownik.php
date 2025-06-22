@@ -10,6 +10,7 @@ require_once "config.php";
 require_once "class/Bilet.php";
 require_once "class/Znizka.php";
 require_once "class/Wagony.php";
+require_once "class/Stacje.php";
 
 $database = new Database();
 $db = $database->getConnection();
@@ -17,6 +18,8 @@ $bilet = new Bilet($db);
 
 $znizkaObj = new Znizka($db);
 $znizki = $znizkaObj->pobierzZnizki();
+
+$stacjeObj = new Stacje($db);
 
 $numer_pociagu = $_POST["numer_pociagu"] ?? null;
 $stacja_start = $_POST["stacja_start"] ?? null;
@@ -31,19 +34,8 @@ $wagon_lista = [];
 
 
 if ($numer_pociagu && $stacja_start && $stacja_koniec) {
-    $query_id_start = "SELECT id_stacji FROM stacje WHERE nazwa = :stacja_start";
-    $stmt = $db->prepare($query_id_start);
-    $stmt->bindParam(":stacja_start", $stacja_start, PDO::PARAM_STR);
-    $stmt->execute();
-    $row_start = $stmt->fetch(PDO::FETCH_ASSOC);
-    $id_stacji_start = $row_start ? $row_start["id_stacji"] : null;
-
-    $query_id_koniec = "SELECT id_stacji FROM stacje WHERE nazwa = :stacja_koniec";
-    $stmt = $db->prepare($query_id_koniec);
-    $stmt->bindParam(":stacja_koniec", $stacja_koniec, PDO::PARAM_STR);
-    $stmt->execute();
-    $row_koniec = $stmt->fetch(PDO::FETCH_ASSOC);
-    $id_stacji_koniec = $row_koniec ? $row_koniec["id_stacji"] : null;
+    $id_stacji_start = $stacjeObj->getIdStationByName($stacja_start);
+    $id_stacji_koniec = $stacjeObj->getIdStationByName($stacja_koniec);
 
     $odleglosc = $bilet->obliczOdleglosc($numer_pociagu, $stacja_start, $stacja_koniec);
 
@@ -72,7 +64,6 @@ if ($numer_pociagu && $stacja_start && $stacja_koniec) {
 
 
 } else {
-    // Domyślne wartości, jeśli nie podano
     $id_stacji_start = null;
     $id_stacji_koniec = null;
 }
@@ -182,13 +173,11 @@ if ($numer_pociagu && $stacja_start && $stacja_koniec) {
     </style>
 
     <script>
-        // Przy ładowaniu strony, jeśli jest klasa, pokazujemy formularz
         window.onload = function() {
             const klasa = '<?= htmlspecialchars($klasa_wybrana) ?>';
             if (klasa) {
                 document.getElementById("formularz").style.display = "block";
                 document.getElementById("kafelek_" + klasa).classList.add("wybrany");
-                // ustaw też cenę bazową i końcową
                 let ceny = {
                     "1": <?= json_encode($cena_klasa_1) ?>,
                     "2": <?= json_encode($cena_klasa_2) ?>,
@@ -219,19 +208,15 @@ if ($numer_pociagu && $stacja_start && $stacja_koniec) {
         }
 
         function wybierzKlase(klasa) {
-            // Ustaw ukryte pole i wyślij formularz wyboru klasy
             document.getElementById("klasa_wybor").value = klasa;
             document.getElementById("form_klasa").submit();
         }
 
         function wybierzMiejsce(wagonId, miejsceNr, elem) {
-            // Odznacz poprzednio wybrane miejsce
             document.querySelectorAll(".miejsce.wybrane").forEach(el => el.classList.remove("wybrane"));
 
-            // Zaznacz kliknięte miejsce
             elem.classList.add("wybrane");
 
-            // Ustaw ukryte pola formularza
             document.getElementById("wagon").value = wagonId;
             document.getElementById("miejsce").value = miejsceNr;
         }
@@ -253,7 +238,6 @@ if ($numer_pociagu && $stacja_start && $stacja_koniec) {
                 cenaPoZnizce = 7.50;
             }
 
-            // Dolicz opłatę dodatkową
             let oplataSelect = document.getElementById("oplata_dodatkowa");
             let oplataValue = oplataSelect ? oplataSelect.value : "0";
 
@@ -277,7 +261,6 @@ if ($numer_pociagu && $stacja_start && $stacja_koniec) {
     </header><br>
     <h2>Wybierz klasę wagonu:</h2>
     <main>
-    <!-- Formularz tylko do wyboru klasy -->
 
     <form id="form_klasa" class= "form_klasa" method="post" action="">
         <input type="hidden" id="klasa_wybor" name="klasa" value="" />
@@ -293,7 +276,6 @@ if ($numer_pociagu && $stacja_start && $stacja_koniec) {
         <div id="kafelek_sypialny" class="kafelek" onclick="wybierzKlase('sypialny')">Sypialny</div>
     </div>
 
-    <!-- Ten formularz jest widoczny po wybraniu klasy -->
     <div id="formularz" style="display:none;">
         <form id="form_bilet" method="post" action="sprzedaz_finalizuj_bilet.php">
             <input type="hidden" id="klasa" name="klasa" value="<?= htmlspecialchars($klasa_wybrana) ?>" />
