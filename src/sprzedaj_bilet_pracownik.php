@@ -343,6 +343,7 @@ if ($numer_pociagu && $stacja_start && $stacja_koniec) {
             
                 <h3>Wybór płatności:</h3>
             <select name="metoda_platnosci">
+                <option value="karta">Gotówka</option>
                 <option value="karta">Karta płatnicza</option>
                 <option value="blik">BLIK</option>
                 <option value="google_pay">Google Pay</option>
